@@ -1,0 +1,305 @@
+
+/*PADDING*/
+.padd-0{
+	padding: 0px !important;
+}
+.padd-5{
+	padding: 5px !important;
+}
+.padd-10{
+	padding: 10px !important;
+}
+.padd-15{
+	padding: 15px !important;
+}
+.padd-20{
+	padding: 20px !important;
+}
+.padd-25{
+	padding: 25px !important;
+}
+
+
+/*BORDES*/
+.border-0{
+	border : 0px !important;
+}
+.border-10{
+	border : 10px !important;
+}
+.border-15{
+	border : 15px !important;
+}
+.border-20{
+	border : 20px !important;
+}
+.border-25{
+	border : 25px !important;
+}
+
+/*BORDER RADIUS*/
+.b-radius-0{
+	border-radius: 0px !important;
+}
+.b-radius-5{
+	border-radius: 5px !important;
+}
+.b-radius-10{
+	border-radius: 10px !important;
+}
+.b-radius-15{
+	border-radius: 15px !important;
+}
+.mar-0{
+	margin: 0px !important;
+}
+.mar-5{
+	margin: 5px !important;
+}
+.mar-10{
+	margin: 10px !important;
+}
+.mar-15{
+	margin: 15px !important;
+}
+.mar-20{
+	margin: 20px !important;
+}
+
+.mar-b-0{
+	margin-bottom: 0px !important;
+}
+.mar-b-5{
+	margin-bottom: 5px !important;
+}
+.mar-b-10{
+	margin-bottom: 10px !important;
+}
+.mar-b-15{
+	margin-bottom: 15px !important;
+}
+.mar-b-20{
+	margin-bottom: 20px !important;
+}
+
+.mar-center{
+	margin: 0 auto !important;
+}
+
+.width-30{
+	width: 30px !important;
+}
+
+/*utiles*/
+.center{
+	text-align: center !important;
+}
+.center-middle{
+	text-align: center;
+	vertical-align: middle;
+}
+.pointer:hover{
+	cursor: pointer;
+}
+
+/*otro*/
+
+#contenedor #pages{
+	margin-top: 50px;
+	margin-left: 230px;
+	transition: all .5s ease;	
+}
+
+#contenedor > .menu-left{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0px;
+	width: 230px;
+	background: #222d32;
+	z-index: 9999;
+	transition: all .5s ease;	
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#contenedor #custom-bootstrap-menu{	
+	margin-left: 230px !important;
+	transition: all .5s ease;	
+}
+
+/*canvas activo*/
+
+#contenedor.canvas .menu-left{
+	left: 0;
+	width: 60px;
+}
+#contenedor.canvas #pages{	
+	margin-left: 60px;
+	overflow: hidden;
+	transition: all .5s ease;	
+}
+#contenedor.canvas #toggle-menu{	
+	width: 60px;	
+}
+#contenedor.canvas #custom-bootstrap-menu{	
+	margin-left: 60px !important;	
+}
+
+
+#contenedor.canvas .menu-left .nav > li a {
+	text-align: center;
+	font-size: 1.3em;
+}
+
+#contenedor.canvas .menu-left .nav > li a > span{
+	display: none;	
+}
+#contenedor.canvas .menu-left .nav > li.header{
+	display: none;
+}
+
+
+#contenedor .menu-left .nav > li > a{
+	padding: 0 15px;
+	height: 44px;
+	line-height: 44px;
+	overflow:hidden;
+	
+	color: #9DA8AD !important;
+
+}
+#contenedor .menu-left .nav > li{
+	background: #1e282c;
+}
+#contenedor .menu-left .nav > li.header{
+	box-sizing: border-box;
+	color: #879195;
+	text-align: center;
+	font-size: .8em;
+	background: #1a2226;
+	height: 30px;
+	line-height: 30px;
+	overflow:hidden;
+}
+#contenedor .menu-left .nav > li:hover > a,
+#contenedor .menu-left .nav > li:active > a,
+#contenedor .menu-left .nav > li:focus > a,
+#contenedor .menu-left .nav > li > a:hover,
+#contenedor .menu-left .nav > li > a:active,
+#contenedor .menu-left .nav > li > a:focus,
+#contenedor .menu-left .nav > li.activo
+{
+	background: #101518 !important;
+	border-left: #398ADD 2px solid !important;
+	color: #FFF !important;
+	cursor: pointer;
+}
+
+#toggle-menu.canvas-on{
+	width: 60px !important;
+	transition: all .5s ease;
+}
+#toggle-menu.canvas-on span{
+	display: none;
+}
+#toggle-menu span{
+	transition: all 0s;
+	overflow: hidden;
+}
+
+.sub-menu{
+	background: #2D3C41;
+	padding:0;
+	padding-left: 15px;
+}
+.sub-menu > li{	
+	list-style: none;
+}
+.sub-menu > li > a{
+	display: block;
+	text-decoration: none;
+	padding: 5px 15px;
+	color: #9DA8AD !important;
+	width: 100%;
+}
+.sub-menu > li  a:hover{
+	color: #FFF ;
+}
+
+.arrow-menu{
+	float: right;
+	padding: 15px 0;
+}
+#contenedor.canvas .menu-left .nav > li a .arrow-menu{
+	padding: 13px 0;
+}
+
+.li-submenu > a{
+	padding-left: 20px !important;
+}
+
+section.container{
+	width: 100% !important;
+}
+section.main{
+	width: 100%;
+}
+
+#toggle-menu:focus{
+	outline:0px;
+}
+#toggle-menu{
+	width: 230px;
+	height: 50px;
+	border:none;	
+	background: #0080A5;
+	border-right: #005168 2px solid;
+	border-bottom: #005168 1px solid;
+	transition: all .5s ease; 
+
+	font-weight: 300;
+	font-size: 1.3em;
+	line-height: 50px;
+	padding: 0 2px;
+	overflow: hidden;
+	color: #FFF;
+}
+
+#img-perfil{
+	height: 100px;
+	width: 230px;
+	text-align: center;
+	transition: all .5s ease;
+}
+#img-perfil img {
+	width: 90px;
+	height: 90px;
+	margin-top: 5px;
+	transition: all .5s ease;
+}
+
+#contenedor.canvas #img-perfil{
+	height: 60px;
+	width: 60px;
+	text-align: center;
+	transition: all .5s ease;
+}
+#contenedor.canvas #img-perfil img {
+	width: 50px;
+	height: 50px;
+	transition: all .5s ease;
+}
+#contenedor #modalJoven.modal,
+#contenedor #addJoven.modal,
+#contenedor #addHorario.modal,
+#contenedor #editHorario.modal{
+	left: 230px !important;
+	transition: all .5s ease;
+}
+#contenedor.canvas #modalJoven.modal,
+#contenedor.canvas #addJoven.modal,
+#contenedor.canvas #addHorario.modal,
+#contenedor.canvas #editHorario.modal{
+	left: 60px !important;
+	transition: all .5s ease;
+}

@@ -1,0 +1,228 @@
+<div class="main">
+	<ol class="breadcrumb">
+		<li><a href="#/">Inicio</a></li>
+		<li class="active">Horarios</li>
+	</ol>
+	<section class="container-fluid ">  
+		<h1>Horarios Asignados</h1>
+		<div class="row mar-b-10">   
+			<div class="col-sm-3">
+				<label for="busqueda">Buscar</label>
+				<div class="input-group">          
+					<input id="busqueda" type="text" class="form-control" placeholder="Ingrese Nombre" ng-model="busqueda" ng-keyup="FiltrarGlobal()">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+				</div><!-- /input-group -->
+			</div>
+			<div class="col-sm-3 pull-right">  <br>
+				<button type="button" class="btn btn-labeled btn-success pull-right" id="agregar" ng-click="addHorario()"><span class="btn-label" ><i class="fa fa-plus"></i></span>Agregar Horario</button>        
+			</div>
+		</div>	
+
+		<table class="table table-bordered table-striped table-hover" ng-table="tableHorarios">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Lunes</th>
+					<th>Martes</th>
+					<th>Miercoles</th>
+					<th>Jueves</th>
+					<th>Viernes</th>
+					<th>Terreno</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="h in $data" class="pointer" ng-dblclick="EditHorarioFn(h)">
+					<td ng-bind="h.Joven.Nombre+' '+h.Joven.Apellido" ></td>
+					<td ng-bind="h.lunes" class="center-middle"></td>
+					<td ng-bind="h.martes" class="center-middle"></td>
+					<td ng-bind="h.miercoles" class="center-middle"></td>
+					<td ng-bind="h.jueves" class="center-middle"></td>
+					<td ng-bind="h.viernes" class="center-middle"></td>	
+					<td ng-bind="h.Terreno ? 'SI':'NO'" class="center-middle"></td>				
+				</tr>
+			</tbody>
+		</table>
+
+	</section>  
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addHorario">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Agregar Horario</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger" ng-show="mensaje.mostrar && mensaje.tipo==='addHorario'">
+					<b ng-bind="mensaje.descripcion"></b>          
+				</div>        
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2">
+						<label for="joven">Joven Sin Horario</label>
+						<select id="joven" class="form-control" ng-model="newHorario.Joven" ng-options="joven as joven.Nombre +' '+joven.Apellido for joven in jovenes track by joven.Id">
+							<option value="">Seleccione</option>
+						</select>
+					</div>								
+				</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Lunes</label>
+							<div class='input-group date' id='lunes'>
+								<input type='text' class="form-control"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Martes</label>
+							<div class='input-group date' id='martes'>
+								<input type='text' class="form-control" />
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Miercoles</label>
+							<div class='input-group date' id='miercoles'>
+								<input type='text' class="form-control" />
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Jueves</label>
+							<div class='input-group date' id='jueves'>
+								<input type='text' class="form-control" />
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Viernes</label>
+							<div class='input-group date' id='viernes'>
+								<input type='text' class="form-control" />
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group center">
+							<label for="">Terreno</label>
+							<input type="checkbox" name="terreno" id="terreno" ng-model="newHorario.Terreno" class="form-control width-30 mar-center pointer">
+						</div>
+					</div>	
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-labeled btn-success pull-right" id="agregar" ng-click="addHorarioOK()" ng-class="{disabled : newHorario.Joven === undefined || newHorario.Joven === null}"><span class="btn-label" ><i class="fa fa-plus"></i></span>Agregar</button>
+			</div>
+		</div>
+	</div>
+</div> 
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="editHorario">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Editar Horario</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger" ng-show="mensaje.mostrar && mensaje.tipo==='addHorario'">
+					<b ng-bind="mensaje.descripcion"></b>          
+				</div>        
+				<div class="row">
+					<div class="col-sm-8 col-sm-offset-2">
+						<h2 class="center" ng-bind="editHorario.Joven.Nombre + ' '+editHorario.Joven.Apellido"></h2><br>
+					</div>								
+				</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Lunes</label>
+							<div class='input-group date' id='lunesEdit'>
+								<input type='text' class="form-control" ng-model="editHorario.lunes"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Martes</label>
+							<div class='input-group date' id='martesEdit'>
+								<input type='text' class="form-control" ng-model="editHorario.martes"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Miercoles</label>
+							<div class='input-group date' id='miercolesEdit'>
+								<input type='text' class="form-control" ng-model="editHorario.miercoles"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Jueves</label>
+							<div class='input-group date' id='juevesEdit'>
+								<input type='text' class="form-control" ng-model="editHorario.jueves"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group">
+							<label for="">Viernes</label>
+							<div class='input-group date' id='viernesEdit'>
+								<input type='text' class="form-control" ng-model="editHorario.viernes"/>
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<div class="form-group center">
+							<label for="">Terreno</label>
+							<input type="checkbox" name="terreno" id="terreno" ng-model="editHorario.Terreno" class="form-control width-30 mar-center pointer">
+						</div>
+					</div>	
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-labeled btn-warning pull-right" id="agregar" ng-click="EditHorarioOK()"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Guardar</button>
+			</div>
+		</div>
+	</div>
+</div> 

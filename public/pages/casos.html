@@ -1,0 +1,329 @@
+<div class="main">
+  <ol class="breadcrumb">
+    <li><a href="#/">Inicio</a></li>
+    <li class="active">Casos</li>
+  </ol>
+  <section class="container-fluid ">  
+    <div class="row mar-b-10">      
+      <div class="col-sm-2">
+        <label for="busqueda">Tipo Filtro</label>
+        <select name="tipoFiltro" id="tipoFiltro" ng-model="tipoFiltro" class="form-control" ng-options="f as f.name for f in Filtros track by f.id">
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <label for="busqueda">Filtro</label>
+        <div class="input-group">          
+          <input id="busqueda" type="text" class="form-control" placeholder="Busqueda..." ng-model="busqueda" ng-keyup="FiltrarGlobal()">
+          <span class="input-group-addon">
+            <i class="fa fa-search"></i>
+          </span>
+        </div><!-- /input-group -->
+      </div>
+      <div class="col-sm-3 pull-right">  <br>
+        <button type="button" class="btn btn-labeled btn-success pull-right" id="agregar" ng-click="addJoven()"><span class="btn-label" ><i class="fa fa-plus"></i></span>Agregar</button>        
+      </div>
+    </div>  
+
+    <div class="table-responsive">
+      <table id="casos" class="table table-bordered table-striped table-hover" ng-table="tableParams">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Rut</th>
+            <th>Fecha Nac.</th>
+            <th>Dirección</th>
+            <th>Fech. Ingr.</th>
+            <th>Tiempo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="j in $data" class="pointer" ng-dblclick="VerJoven(j)" >
+            <td>{{j.Nombre+' '+j.Apellido}}</td>
+            <td>{{j.Rut}}</td>
+            <td>{{j.FechaNacimiento}}</td>
+            <td>{{j.Direccion}}</td>
+            <td>{{j.FechaIngreso}}</td>
+            <td ng-bind="j.getTiempo() > 1 ? j.getTiempo()+' meses': j.getTiempo()+' mes'"></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Nombre</th>
+            <th>Rut</th>
+            <th>Fecha Nac.</th>
+            <th>Dirección</th>
+            <th>Fech. Ingr.</th>
+            <th>Tiempo</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    
+  </section>  
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="modalJoven">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 ng-hide="editJoven" class="modal-title" id="myModalLabel" ng-bind="joven.Nombre+' '+joven.Apellido"></h4>
+        <div class="row" ng-show="editJoven" >
+          <div class="col-xs-6 col-sm-3">
+            <label for="nombre">Nombre</label>
+            <input type="text" ng-model="joven.Nombre" class="form-control" id="nombre">            
+          </div>
+          <div class="col-xs-6 col-sm-3">
+            <label for="apellido">Apellido</label>
+            <input type="text" ng-model="joven.Apellido" class="form-control" id="apellido">            
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+
+        <ul class="nav nav-pills nav-justified">
+          <li role="presentation" class="{{navpills.datos ? 'active':''}}"><a href="" ng-click="verProp('datos')">Datos Personales</a></li>
+          <li role="presentation" class="{{navpills.consultorio ? 'active':''}}"><a href="" ng-click="verProp('consultorio')">Consultorio</a></li>
+          <li role="presentation" class="{{navpills.cosam ? 'active':''}}"><a href="" ng-click="verProp('cosam')">COSAM</a></li>
+        </ul>
+        <div class="alert alert-danger" ng-show="mensaje.mostrar && mensaje.tipo==='edit'">
+          <b ng-bind="mensaje.descripcion"></b>          
+        </div>  
+        <hr>
+        <div class="row" ng-show="navpills.datos">
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">Rut</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.Rut"></span>
+              <input type="text" ng-model="joven.Rut" ng-show="editJoven" class="form-control">
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">Fecha Nacimiento</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.FechaNacimiento"></span>
+              <div class='input-group date' id='dateEditNacimiento' ng-show="editJoven">
+                <input type='text' class="form-control" ng-model="joven.FechaNacimiento" id='dateEditNacimiento'/>
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" ng-click="cambiarFecha('edit')"></span>
+                </span>
+              </div>  
+            </div> 
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">Dirección</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.Direccion"></span>
+              <input type="text" ng-model="joven.Direccion" ng-show="editJoven" class="form-control">
+            </div> 
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">Adulto Responsable</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.AdultoResponsable"></span>
+              <input type="text" ng-model="joven.AdultoResponsable" ng-show="editJoven" class="form-control">
+            </div> 
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">N° Contacto</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.NumContacto === '' ? 'Sin Asignar' : joven.NumContacto"></span>
+              <input type="text" ng-model="joven.NumContacto" ng-show="editJoven" class="form-control">
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">Fecha Ingreso</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.FechaIngreso" ></span>
+              <div class='input-group date' id='dateEditIngreso' ng-show="editJoven">
+                <input type='text' class="form-control" ng-model="joven.FechaIngreso" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar" ng-click="cambiarFecha('edit')"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">RIT</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.Rit"></span>
+              <input type="text" ng-model="joven.Rit" ng-show="editJoven" class="form-control">
+            </div> 
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">Tribunal</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.Tribunal"></span>
+              <input type="text" ng-model="joven.Tribunal" ng-show="editJoven" class="form-control">
+            </div> 
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="">Tiempo</label><br>
+              <span ng-hide="editJoven" ng-bind="joven.getTiempo() > 1 ? joven.getTiempo()+' meses' : joven.getTiempo()+ ' mes'"></span>
+            </div> 
+          </div>
+        </div>
+        <div class="row center" ng-show="navpills.consultorio">
+          <h2 class="center">Consultorio</h2>
+          <hr>
+          <div ng-hide="editJoven">            
+            <div ng-if="joven.Consultorio !== null">
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Nombre</label><br>
+                  <span ng-bind="joven.Consultorio.Nombre"></span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Dirección</label><br>
+                  <span ng-bind="joven.Consultorio.Direccion"></span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Teléfono</label><br>
+                  <span ng-bind="joven.Consultorio.Telefono"></span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="joven.Consultorio === null">
+              <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <div class="alert alert-danger center">
+                  <b>El o la Joven, No registra ningun consultorio.</b>
+                </div>
+              </div>
+            </div> 
+          </div>   
+          <div class="col-sm-8 col-sm-offset-2" ng-show="editJoven">              
+            <div class="form-group">
+              <select class="form-control" name="consultorio" id="consultorio" ng-model="joven.Consultorio" ng-options="consultorio as consultorio.Nombre for consultorio in Consultorios track by consultorio.Id">
+                <option value="">Seleccione</option>
+              </select>
+            </div>
+          </div>      
+        </div>
+        <div class="row center" ng-show="navpills.cosam">
+          <h2 class="center">COSAM</h2>
+          <hr>
+          <div ng-hide="editJoven">
+            <div ng-if="joven.Cosam !== null">
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Nombre</label><br>
+                  <span ng-bind="joven.Cosam.Nombre"></span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Dirección</label><br>
+                  <span ng-bind="joven.Cosam.Direccion"></span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Teléfono</label><br>
+                  <span ng-bind="joven.Cosam.Telefono"></span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="joven.Cosam === null">
+              <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <div class="alert alert-danger center">
+                  <b>El o la Joven, No registra ningun COSAM.</b>
+                </div>
+              </div>
+            </div>  
+          </div> 
+          <div class="col-sm-8 col-sm-offset-2" ng-show="editJoven">              
+            <div class="form-group">
+              <select class="form-control" name="cosam" id="cosam" ng-model="joven.Cosam" ng-options="cosam as cosam.Nombre for cosam in Cosams track by cosam.Id">
+                <option value="">Seleccione</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-labeled btn-warning" id="edit" ng-hide="editJoven" ng-click="editJoven = true"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Editar</button>   
+        <button type="button" class="btn btn-labeled btn-success" id="editOk" ng-show="editJoven" ng-click="EditarJoven(joven)"><span class="btn-label" ><i class="fa fa-check"></i></span>Guardar</button>   
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addJoven">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ingresr Nuevo Joven</h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger" ng-show="mensaje.mostrar && mensaje.tipo==='add'">
+          <b ng-bind="mensaje.descripcion"></b>          
+        </div>        
+        <div class="row">
+          <div class="col-sm-6 col-md-4">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" class="form-control" ng-model="nuevoJoven.Nombre">
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" class="form-control" ng-model="nuevoJoven.Apellido">
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="rut">Rut</label>
+            <input type="text" id="rut" class="form-control" ng-model="nuevoJoven.Rut">
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="direccion">Dirección</label>
+            <input type="text" id="direccion" class="form-control" ng-model="nuevoJoven.Direccion">
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="fchNac">Fecha Nacimiento</label>
+            <div class='input-group date' id='dateAddNacimiento'>
+              <input type='text' class="form-control" ng-model="nuevoJoven.FechaNacimiento"/>
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>  
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="adulto">Adulto Responsable</label>
+            <input type="text" id="adulto" class="form-control" ng-model="nuevoJoven.AdultoResponsable">
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="numContacto">Numero Contacto</label>
+            <input type="text" id="numContacto" class="form-control" ng-model="nuevoJoven.NumContacto">
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="fchIng">Fecha Ingreso</label>
+            <div class='input-group date' id='dateAddIngreso'>
+              <input type='text' class="form-control" ng-model="nuevoJoven.FechaIngreso"/>
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="rit">RIT</label>
+            <input type="text" id="rit" class="form-control" ng-model="nuevoJoven.Rit">
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <label for="tribunal">Tribunal</label>
+            <input type="text" id="tribunal" class="form-control" ng-model="nuevoJoven.Tribunal">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-labeled btn-success pull-right" id="agregar" ng-click="addJovenOk()"><span class="btn-label" ><i class="fa fa-plus"></i></span>Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
