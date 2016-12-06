@@ -40,7 +40,7 @@
 					<td ng-bind="h.miercoles" class="center-middle"></td>
 					<td ng-bind="h.jueves" class="center-middle"></td>
 					<td ng-bind="h.viernes" class="center-middle"></td>	
-					<td ng-bind="h.Terreno ? 'SI':'NO'" class="center-middle"></td>				
+					<td ng-bind="h.terreno ? 'SI':'NO'" class="center-middle"></td>				
 				</tr>
 			</tbody>
 		</table>
@@ -62,8 +62,8 @@
 				<div class="row">
 					<div class="col-sm-8 col-sm-offset-2">
 						<label for="joven">Joven Sin Horario</label>
-						<select id="joven" class="form-control" ng-model="newHorario.Joven" ng-options="joven as joven.Nombre +' '+joven.Apellido for joven in jovenes track by joven.Id">
-							<option value="">Seleccione</option>
+						<select id="joven" class="form-control" ng-model="newHorario.Joven" ng-options="joven as joven.Nombre +' '+joven.Apellido for joven in jovenes track by joven.Rut">
+							<option value="" selected="true">Seleccione</option>
 						</select>
 					</div>								
 				</div>
@@ -126,7 +126,7 @@
 					<div class="col-sm-6 col-md-2">
 						<div class="form-group center">
 							<label for="">Terreno</label>
-							<input type="checkbox" name="terreno" id="terreno" ng-model="newHorario.Terreno" class="form-control width-30 mar-center pointer">
+							<input type="checkbox" name="terreno" id="terreno" ng-model="newHorario.terreno" class="form-control width-30 mar-center pointer">
 						</div>
 					</div>	
 				</div>
@@ -214,7 +214,7 @@
 					<div class="col-sm-6 col-md-2">
 						<div class="form-group center">
 							<label for="">Terreno</label>
-							<input type="checkbox" name="terreno" id="terreno" ng-model="editHorario.Terreno" class="form-control width-30 mar-center pointer">
+							<input type="checkbox" name="terreno" id="terreno" ng-model="editHorario.terreno" class="form-control width-30 mar-center pointer" >
 						</div>
 					</div>	
 				</div>
@@ -222,6 +222,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				<button type="button" class="btn btn-labeled btn-warning pull-right" id="agregar" ng-click="EditHorarioOK()"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Guardar</button>
+				<button type="button" class="btn btn-labeled btn-danger pull-right" id="deleteH"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Eliminar</button>
 			</div>
 		</div>
 	</div>

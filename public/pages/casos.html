@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="j in $data" class="pointer" ng-dblclick="VerJoven(j)" >
+          <tr ng-repeat="j in $data" class="pointer" ng-dblclick="VerJoven(j)" alt="Doble Click Para Seleccionar">
             <td>{{j.Nombre+' '+j.Apellido}}</td>
             <td>{{j.Rut}}</td>
             <td>{{j.FechaNacimiento}}</td>
@@ -251,6 +251,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-labeled btn-warning" id="edit" ng-hide="editJoven" ng-click="editJoven = true"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Editar</button>   
         <button type="button" class="btn btn-labeled btn-success" id="editOk" ng-show="editJoven" ng-click="EditarJoven(joven)"><span class="btn-label" ><i class="fa fa-check"></i></span>Guardar</button>   
+        <button  data-title="¿Está seguro?" type="button" class="btn btn-labeled btn-danger" id="delete" ng-hide="editJoven" ng-model="jovenEliminar"><span class="btn-label" ><i class="fa fa-check"></i></span>Eliminar</button>   
       </div>
     </div>
   </div>

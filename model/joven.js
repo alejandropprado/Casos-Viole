@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
+const Horario = require('./horario');
 
 let schema_joven = new Schema({
 	nombre :{type:String,minlength:[3,"Nombre Muy Corto"]},
@@ -13,6 +14,10 @@ let schema_joven = new Schema({
 	fecha_ingreso:{type:Date,default: new Date()},
 	rit:{type:String,default: ''},
 	tribunal:String
+});
+
+schema_joven.post('remove', (data) => {
+	Horario.remove({ joven:data.id}).exec();
 });
 
 let Joven =  mongoose.model("Joven",schema_joven);

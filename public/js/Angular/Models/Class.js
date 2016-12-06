@@ -26,24 +26,13 @@ var DiasSemana = [
 {id:5,dia:"viernes"},	
 ];
 
-var Horario = (function(){
-	function Horario(id,dia,hora,terreno,joven){
-		this.Id=id;
-		this.Dia = dia;
-		this.Hora = hora;
-		this.Terreno = terreno || false;
-		this.Joven = joven;
-	}
-	return Horario;
-}());
-
 var HorarioReal = (function(){
-	function HorarioReal(){
-		this.lunes="";
-		this.martes="";
-		this.miercoles="";
-		this.jueves="";
-		this.viernes="";	
+	function HorarioReal(lu,ma,mi,ju,vi,terreno,joven){
+		this.lunes= lu || "";
+		this.martes= ma || "";
+		this.miercoles= mi || "";
+		this.jueves= ju || "";
+		this.viernes= vi || "";	
 
 		this.terreno = terreno || false;
 		this.Joven = joven;	

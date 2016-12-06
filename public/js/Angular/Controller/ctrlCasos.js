@@ -2,6 +2,7 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 	/*inicialización*/
 	$sp.mensaje ={mostrar:false,tipo:"",descripcion:""};
 	$sp.nuevoJoven = new Joven();
+	$sp.jovenEliminar = {};
 	//limpiarFechas($sp.nuevoJoven);
 
 	$sp.navpills = {
@@ -68,20 +69,23 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 		}
 	};
 
-	ApiJovenes.Api('GET','/api/jovenes',{}, function (jovenes) {
-		console.log('recibi -> ');
-		console.log(jovenes);
+	//Recuperando los datos 
+	ActionAPI('GET','/api/jovenes',{},function(jovenes){
 		$sp.jovenes = jovenes;
 		initTablaJovenes($sp.jovenes);
-	});	
+	},function(err){
+		console.log('ERROR');
+	});
 
+	//click para ver los datos del joven seleccionado
 	$sp.VerJoven = function(elm){
 		$sp.mensaje ={mostrar:false,tipo:"",descripcion:""};
 		$sp.editJoven = false;
 		$sp.joven = new Joven(elm.Nombre,elm.Apellido,elm.Rut,elm.FechaNacimiento,elm.Direccion,elm.AdultoResponsable,elm.NumContacto,elm.FechaIngreso,elm.Rit,elm.Tribunal,elm.Consultorio,elm.Cosam);
 
-		$('#modalJoven').modal();
+		$('#delete').confirmation('hide');
 
+		$('#modalJoven').modal();
 	};
 
 	$sp.addJoven = function(){
@@ -97,71 +101,109 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 		$sp.nuevoJoven.FechaNacimiento = $('#dateAddNacimiento > input').val();
 		$sp.nuevoJoven.FechaIngreso =$('#dateAddIngreso > input').val();
 
-		ApiJovenes.Api('POST','/api/jovenes', $sp.nuevoJoven, function (jovenes) {
+		ActionAPI('POST','/api/jovenes', $sp.nuevoJoven, function (jovenes) {
 			$sp.jovenes = jovenes;
 			$sp.nuevoJoven = new Joven();
 			//limpiarFechas($sp.nuevoJoven);
 			$('#addJoven').modal('hide');
 			initTablaJovenes($sp.jovenes);
 		}, function (err) {
+			console.log(err);
 			$sp.mensaje.mostrar = true;
 			$sp.mensaje.descripcion = "¡ERROR!, Debe completar los campos";
 			$sp.mensaje.tipo = "add";
 			console.log("no guardo");
-		});
+		});	
+
 
 	};
 
-	/*$sp.EditarJoven = function(obj){
-
+	$sp.EditarJoven = function(obj){
 		obj.FechaNacimiento = $('#dateEditNacimiento > input').val();
 		obj.FechaIngreso = $('#dateEditIngreso > input').val();
 
-		console.log(obj.FechaNacimiento);
-		console.log(obj.FechaIngreso);
-
-		if(obj.Valido()){
-
-			for (var i = 0; i < $sp.jovenes.length; i++) {
-				if($sp.jovenes[i].Id === obj.Id){
-					$sp.jovenes[i] = obj;
-					break;
-				}
-			}
-
-			$sp.joven = obj;
-
-			$sp.tableParams = new NgTableParams(param,conf);
-
+		ActionAPI('PUT','/api/jovenes/'+obj.Rut, obj, function (jovenes) {
+			$sp.jovenes = jovenes;
+			$sp.nuevoJoven = new Joven();
+			//limpiarFechas($sp.nuevoJoven);
+			$('#addJoven').modal('hide');
+			initTablaJovenes($sp.jovenes);
 			$sp.editJoven=false;
 			$sp.mensaje.mostrar = false;
-			console.log("ok edit");
-		}else{
+		}, function (err) {
 			$sp.mensaje.mostrar = true;
-			$sp.mensaje.descripcion = "¡ERROR!, Debe completar los campos";
-			$sp.mensaje.tipo = "edit";
-			console.log(obj);
-		}
+			$sp.mensaje.descripcion = "¡ERROR al Acutualizar!, Debe completar los campos";
+			$sp.mensaje.tipo = "add";
+			console.log("no guardo");
+			console.log(err);
+		});
 	};
 
-	function limpiarFechas(el){
-		el.FechaNacimiento = "";
-		el.FechaIngreso = "";
+	/*
+	*	-Confirmation 
+	*	metodo para eliminar al joven seleccionado
+	*/
+	$('#delete').confirmation({
+		onConfirm: function() {
+			ActionAPI('DELETE','/api/jovenes/'+$sp.joven.Rut,{}, function (jovenes) {
+				$sp.jovenes = jovenes;
+				$sp.nuevoJoven = new Joven();
+				initTablaJovenes($sp.jovenes);
+				$('#modalJoven').modal('hide');
+			}, function (err) {
+				$sp.mensaje.mostrar = true;
+				$sp.mensaje.descripcion = "¡ERROR!, Al eliminar";
+				$sp.mensaje.tipo = "add";
+				console.log("no Elimino");
+			});		
+		},
+		buttons: [
+		{
+			label: 'SI',
+			class: 'btn btn-xs btn-primary',
+			icon: 'fa fa-check'
+		},
+		{
+			label: 'NO',
+			class: 'btn btn-xs btn-default',
+			icon: 'fa fa-close'
+		}],
+
+	});
+
+
+	function ActionAPI(method,url,data,success,error){
+		ApiJovenes.Api(method,url, data).then(
+			function (data){
+				var arrayJovenes = data.jovenes;
+				console.log(arrayJovenes);
+				var jovenes = [] ;
+				for (var i = arrayJovenes.length - 1; i >= 0; i--) {          
+					var joven = new Joven(
+						arrayJovenes[i].nombre, 
+						arrayJovenes[i].apellido, 
+						arrayJovenes[i].rut, 
+						moment(arrayJovenes[i].fecha_Nacimiento).format('DD/MM/YYYY'), 
+						arrayJovenes[i].direccion, 
+						arrayJovenes[i].adulto_responsable, 
+						arrayJovenes[i].numero_contacto, 
+						moment(arrayJovenes[i].fecha_ingreso).format('DD/MM/YYYY'), 
+						arrayJovenes[i].rit, 
+						arrayJovenes[i].tribunal
+						);
+					jovenes.push(joven);
+				}
+
+				try {
+					success(jovenes);
+				}
+				catch(err) {}
+			},function (err){
+				try {
+					error(err);
+				}catch (e){}
+			});
 	}
-
-	$sp.cambiarFecha= function(tipo){
-		var fecha;
-		if(tipo === 'edit'){
-			fecha = moment($('#dateEditNacimiento > input').val(),"DD/MM/YYYY");
-			$('#dateEditIngreso').data("DateTimePicker").minDate(fecha);
-			$('#dateEditIngreso > input').val('');
-		}else{
-			fecha = moment($('#dateAddNacimiento > input').val(),"DD/MM/YYYY");
-			$('#dateAddIngreso').data("DateTimePicker").minDate(fecha);
-			$('#dateAddIngreso > input').val('');
-		}
-		fecha = "";
-	};
 
 	/*funciones datatimepicker jquery*/
 	var now = moment(new Date());	
@@ -185,7 +227,10 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 		format: 'DD/MM/YYYY',
 		viewMode: 'years',
 		maxDate: now
-	});/*FIN*/
+	});
+
+	
+	/*FIN*/
 
 
 	$sp.verProp =function(e){

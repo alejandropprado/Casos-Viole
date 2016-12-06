@@ -37,10 +37,11 @@ app.config(['$routeProvider',function($ruta) {
 	
 }]);
 
-app.service('ApiJovenes',['$http', function ($http) {
-  this.Api = function(method,url,data, next, error) {
-    scope = [];
+app.service('ApiJovenes', ['$http','$q', function($http,$q){
+  this.Api = function(method,url,data){
+    var deferred = $q.defer();
     var options = {};
+
     switch (method) {
       case 'GET':
       options.method = method;
@@ -51,40 +52,24 @@ app.service('ApiJovenes',['$http', function ($http) {
       options.url = url;    
       options.data = data 
       break;
+      case 'DELETE':
+      options.method = method;
+      options.url = url;  
+      break;
+      case 'PUT':
+      options.method = method;
+      options.url = url;    
+      options.data = data 
+      break;
     }
 
-    $http(options).then(
-      function success(data) {
-        var arrayJovenes = data.data.jovenes;
-        var jovenes = [] ;
-        for (var i = arrayJovenes.length - 1; i >= 0; i--) {
-          var joven = new Joven(
-            arrayJovenes[i].nombre, 
-            arrayJovenes[i].apellido, 
-            arrayJovenes[i].rut, 
-            moment(arrayJovenes[i].fecha_Nacimiento).format('DD/MM/YYYY'), 
-            arrayJovenes[i].direccion, 
-            arrayJovenes[i].adulto_responsable, 
-            arrayJovenes[i].numero_contacto, 
-            moment(arrayJovenes[i].fecha_ingreso).format('DD/MM/YYYY'), 
-            arrayJovenes[i].rit, 
-            arrayJovenes[i].tribunal
-            );
-          jovenes.push(joven);
-        }
-
-        try {
-          console.log('Envio Jovenes');
-          console.log(jovenes);
-          next(jovenes);
-        }
-        catch(err) {}
-        
-      }, function error(data) {
-        try{
-          error(data)
-        }
-        catch(err){}
-      });
-  }
+    $http(options).success(function(data){
+      deferred.resolve(data);
+    })
+    .error(function(msg,code){
+      deferred.reject(msg);
+    });
+    return deferred.promise;
+  };
+  
 }]);
