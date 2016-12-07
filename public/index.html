@@ -19,64 +19,10 @@
 
 </head>
 <body>
-	
-	<div class="conainer-fluid" ng-controller="ctrlRuta">
-		<div id="contenedor">	
-			<div class="menu-left">
-				<ul class="nav ">
-					<button id="toggle-menu"><span>MENU </span><i class="fa fa-navicon"></i></button>
-					<div id="img-perfil">
-						<img src="img/businessman.png" alt="" class="img-circle">
-					</div>
-					<li class="header">NAVEGACIÓN</li>
-					<li ng-class="{activo: Activo('/perfil')}">
-						<a href="#/perfil"><i class="fa fa-user-circle padd-5"></i> <span>Perfil</span></a>
-					</li>
-					<li ng-class="{activo: Activo('/horarios')}"><a href="#/horarios"><i class="fa fa-calendar padd-5"></i> <span>Calendario</span> </a>
-					</li>
-					<li data-toggle="collapse" data-target="#insertar" class="collapsed active li-submenu" >
-						<a href=""><i class="fa fa-edit"> </i> <span> Ingresar</span> <b><i class=" fa fa-angle-right arrow-menu"></i></b></a>						
-					</li>
-					<ul class="sub-menu collapse" id="insertar">                    
-						<li><a href="#">opcion 1</a></li>
-						<li><a href="#">opcion 2</a></li>						
-					</ul>
-					<li><a href="#/logout"><i class="fa fa-user-circle padd-5"></i> <span>Cerrar Sesión</span></a>
-					</li>
-				</ul>
-			</div>
 
-			<!--header-->
-			<div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top b-radius-0 padd-0 border-0" role="navigation">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</div>
-					<div class="collapse navbar-collapse navbar-menubuilder" >
-						<ul class="nav navbar-nav navbar-right" id="main-menu">
-							<li  ng-class="{active: Activo('/')}"><a href="#/">Inicio</a>
-							</li>
-							<li ng-class="{active: Activo('/todos-los-casos')}"><a href="#/todos-los-casos">Casos</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
+	<div ui-view></div>
 
-			<!--main content-->
-			<div id="pages">
-				<ng-view autoscroll="true"></ng-view>
-			</div>
-		</div>
-	</div>
-
-
-	
+	<!--SCRIPT-->
 	<script src="js/moment.js"></script>
 
 	<script src="comp/bootstrap/js/bootstrap.min.js"></script>
@@ -87,8 +33,10 @@
 	<script src="comp/datapicker/js/bootstrap-datetimepicker.min.js"></script>
 
 	<script src="js/Angular/angular.min.js"></script>
-	<script src="js/Angular/angular-route.min.js"></script>
 
+	<script src="js/Angular/angular-route.min.js"></script>
+	<script src="/bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
+	<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
 
 	<script src="js/Angular/Models/Class.js"></script>
@@ -98,63 +46,7 @@
 	<script src="js/Angular/Controller/ctrlHorarios.js"></script>
 
 
-	<script type="text/javascript">
-		$(document).ready(function(){
-			pantalla($(window));
-
-			$(window).resize(function(){
-				pantalla(this);
-			});
-			function pantalla(obj){
-				if($(obj).width()<1190){
-					var cont = $('#contenedor');
-					var brand = $('#toggle-menu');
-					if(!cont.hasClass('canvas')){
-						cont.addClass("canvas");
-						brand.addClass('canvas-on');
-					}
-					var subs = document.querySelectorAll('.sub-menu');
-					for (var i = 0; i < subs.length; i++) {
-						if($(subs[i]).hasClass('collapse in')){
-							$(subs[i]).removeClass('collapse in');
-							$(subs[i]).addClass('collapse');
-						}					
-					}
-				}
-				
-			}
-
-			$('#toggle-menu').on('click',function(e){
-				//e.preventDefault();
-				console.log("ABRIR");
-				var cont = $('#contenedor');
-				var brand = $(this);
-				if(cont.hasClass('canvas')){
-					cont.removeClass('canvas');
-					brand.removeClass('canvas-on');
-				}else{
-					cont.addClass("canvas");
-					brand.addClass('canvas-on');
-				}
-
-				var subs = document.querySelectorAll('.sub-menu');
-				for (var i = 0; i < subs.length; i++) {
-					if($(subs[i]).hasClass('collapse in')){
-						$(subs[i]).removeClass('collapse in');
-						$(subs[i]).addClass('collapse');
-					}					
-				}
-			});
-
-			$('.li-submenu').on('click',function(){
-				if($('#contenedor').hasClass('canvas')){
-					$('#toggle-menu').click();
-				}				
-			});
-
-
-		});
-	</script>
+	
 
 </body>
 </html>

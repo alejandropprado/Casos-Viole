@@ -303,3 +303,114 @@ section.main{
 	left: 60px !important;
 	transition: all .5s ease;
 }
+
+
+#loginBody{
+	background: url('/img/fondo.jpg') no-repeat ;
+	background-position: center; 
+}
+.cont-login{
+	margin-top: 10%;
+	background: rgba(0,0,0,0.5);
+	margin-bottom: 15px;
+	color: #FFF
+}
+
+/**/
+#login-dp{
+	min-width: 250px;
+	padding: 14px 14px 0;
+	overflow:hidden;
+	background-color:rgba(0,0,0,.4);
+	color: #FFF
+
+}
+#login-dp .help-block{
+	font-size:12px    
+}
+#login-dp .bottom{
+	background-color:rgba(255,255,255,.8);
+	border-top:1px solid #ddd;
+	clear:both;
+	padding:14px;
+}
+#login-dp .social-buttons{
+	margin:12px 0    
+}
+#login-dp .social-buttons a{
+	width: 32%;
+}
+#login-dp .form-group {
+	margin-bottom: 10px;
+}
+.btn-fb{
+	color: #fff;
+	background-color:#3b5998;
+}
+.btn-fb:hover{
+	color: #fff;
+	background-color:#496ebc 
+}
+.btn-tw{
+	color: #fff;
+	background-color:#55acee;
+}
+.btn-tw:hover{
+	color: #fff;
+	background-color:#59b5fa;
+}
+.btn-gg{
+	color: #fff;
+	background-color:#DF1515;
+}
+.btn-gg:hover{
+	color: #fff;
+	background-color:#D61616;
+}
+@media(max-width:768px){
+	#login-dp{
+		background-color: rgba(0,0,0,0.4);
+		color: #FFF;
+		font-weight: bolder;
+	}
+}
+
+/**/
+#menu-login-nav.navbar-default .navbar-brand {
+	color: rgba(255, 255, 255, 1);
+}
+#menu-login-nav.navbar-default {
+	font-size: 18px;
+	background-color: rgba(248, 248, 248, 0);
+	border:none;
+	border-bottom: 1px solid rgba(255,255,255,0.5);
+}
+#menu-login-nav.navbar-default .navbar-nav>li>a {
+	color: rgba(255, 255, 255, 1);
+	background-color: rgba(248, 248, 248, 0);
+}
+#menu-login-nav.navbar-default .navbar-nav>li>a:hover,
+#menu-login-nav.navbar-default .navbar-nav>li>a:focus {
+	color: rgba(255, 255, 255, 1);
+	background-color: rgba(0, 0, 0, 0.25);
+}
+#menu-login-nav.navbar-default .navbar-nav>.active>a,
+#menu-login-nav.navbar-default .navbar-nav>.active>a:hover,
+#menu-login-nav.navbar-default .navbar-nav>.active>a:focus {
+	color: rgba(255, 255, 255, 1);
+	background-color: rgba(231, 231, 231, 1);
+}
+#menu-login-nav.navbar-default .navbar-toggle {
+	border-color: #ddd;
+}
+#menu-login-nav.navbar-default .navbar-toggle:hover,
+#menu-login-nav.navbar-default .navbar-toggle:focus {
+	background-color: #ddd;
+}
+#menu-login-nav.navbar-default .navbar-toggle .icon-bar {
+	background-color: #888;
+}
+#menu-login-nav.navbar-default .navbar-toggle:hover .icon-bar,
+#menu-login-nav.navbar-default .navbar-toggle:focus .icon-bar {
+	background-color: #888;
+}

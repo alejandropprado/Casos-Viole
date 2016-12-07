@@ -5,17 +5,20 @@ const mongoose = require('mongoose');
 const bodyParser =  require('body-parser');
 const rutaJovenes = require('./router/jovenes');
 const rutaHorarios = require('./router/horarios');
+const rutaUsers = require('./router/users');
 
 /*Instancias*/
 const app = express();
 const puerto = process.env.PORT  || 3500;
 
+/*Configuraciones*/
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
 app.use('/api',rutaJovenes);
 app.use('/api',rutaHorarios);
+app.use('/auth',rutaUsers);
 
 //Conexion MONGODB
 mongoose.connect("mongodb://localhost/casosViole", (err,res) => {

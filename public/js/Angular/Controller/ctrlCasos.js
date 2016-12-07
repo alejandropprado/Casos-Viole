@@ -1,5 +1,6 @@
 app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', function($sp,NgTableParams,$http,ApiJovenes){	
 	/*inicialización*/
+
 	$sp.mensaje ={mostrar:false,tipo:"",descripcion:""};
 	$sp.nuevoJoven = new Joven();
 	$sp.jovenEliminar = {};
@@ -183,7 +184,7 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 						arrayJovenes[i].nombre, 
 						arrayJovenes[i].apellido, 
 						arrayJovenes[i].rut, 
-						moment(arrayJovenes[i].fecha_Nacimiento).format('DD/MM/YYYY'), 
+						moment(arrayJovenes[i].fecha_nacimiento).format('DD/MM/YYYY'), 
 						arrayJovenes[i].direccion, 
 						arrayJovenes[i].adulto_responsable, 
 						arrayJovenes[i].numero_contacto, 

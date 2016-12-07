@@ -14,10 +14,6 @@ router.get('/horarios', (req,resp) => {
 	});
 });
 
-router.get('/horarios/del', (req,resp) => {
-	Horario.remove();
-});
-
 router.post('/horarios', (req,resp) => {
 	console.log(req.body);
 	console.log('\n');
