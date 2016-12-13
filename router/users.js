@@ -23,11 +23,13 @@ router.post('/login', (req,resp) => {
 router.post('/signup', (req,resp) => {
 	let datos = {
 		nombre: req.body.nombre,
-		email : req.body.email,
+		email : req.body.email,		
+		RePassword: req.body.pass_conf,
 		password : req.body.password
 	};
+
 	let user = new User(datos);
-	user.save( (err,user,numrow) => {
+	user.save( (err, user, numrow) => {
 		if(err)	return resp.status(500).json({message : err});
 
 		resp.status(200).json({message : 'OK'});

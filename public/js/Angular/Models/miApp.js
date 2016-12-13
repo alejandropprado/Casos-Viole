@@ -1,4 +1,4 @@
-var app = angular.module('Casos',['ngRoute','ngTable','angular-jwt', 'ui.router']);
+var app = angular.module('Casos',['ngRoute','ngTable','angular-jwt', 'ui.router','cgNotify']);
 
 app.config([
   '$routeProvider', 
@@ -40,7 +40,7 @@ app.config([
     state('home.dashboard', {
       templateUrl : '/pages/inicio.html',
       url:'inicio'
-    })
+    });
 
   }]);
 
@@ -100,33 +100,6 @@ app.service('loginApi', ['$http', function($http){
       skipAuthorization :false,
       url:'/auth/signup',
       data: user
-    });
-  };
-
-}]);
-
-app.controller('loginCtrl', ['$scope', 'loginApi', '$location', '$state', function($sp, loginApi, $location, $state){
-
-  try {
-    window.localStorage.removeItem('token');
-  } catch(e) {
-    console.log(e);
-  }
-
-  $sp.login = function(user){
-    loginApi.login(user).then( function(resp){
-      var token = JSON.stringify(resp.data);      
-      window.localStorage.setItem('token', token);      
-      $state.go('home.dashboard');
-    });
-  };
-
-  $sp.signup = function(user){
-    loginApi.signup(user).then( function(resp){
-      if (resp.data.message === 'OK'){
-        alert('Registro Completado');
-        $sp.userR = {};
-      }
     });
   };
 
