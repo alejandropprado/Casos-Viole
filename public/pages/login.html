@@ -23,9 +23,9 @@
 									<div class="col-md-12">
 										Con Redes Sociales
 										<div class="social-buttons">
-											<a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> </a>
+											<a href="#" class="btn btn-fb" ng-click="FBLogin()" ng-hide="FBloginStatus"><i class="fa fa-facebook"></i> </a>
 											<a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> </a>
-											<a href="#" class="btn btn-gg"><i class="fa fa-google-plus"></i> </a>
+											<a href="#" class="btn btn-gg" ng-click="GoogleLogin()"><i class="fa fa-google-plus"></i> </a>
 										</div>
 										O con Su Cuenta
 										<form class="form" role="form" ng-submit="login(user)">
@@ -82,11 +82,15 @@
 				</div>
 			</form>
 		</div>
+
 	</div>	
 </div>
 
 <script>
+
 	var ventana_alto = $(window).height();
-	console.log(ventana_alto);
 	$('#loginBody').css('min-height', ventana_alto+'px');
+
+
+	
 </script>

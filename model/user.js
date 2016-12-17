@@ -25,9 +25,11 @@ const schemaUser = new Schema({
 	},
 	password:{
 		type: String, 
-		schemaUser: "El campo Contraseña es obligatorio.", 
 		minLenght: [8,"Contraseña muy corta"]
-	}
+	},
+	proveedor: String,
+	idProveedor: String,
+	imagen : { type:String, default: '/img/default.png'}
 }, propiedadesSchema);
 
 //Virtuals 

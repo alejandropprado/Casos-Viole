@@ -4,8 +4,9 @@
 			<ul class="nav ">
 				<button id="toggle-menu"><span> MENU </span><i class="fa fa-navicon"></i></button>
 				<div id="img-perfil">
-					<img src="img/businessman.png" alt="" class="img-circle">
+					<img src="{{Usuario.imagen}}" class="img-circle">
 				</div>
+				<li class="header-name" ng-bind="Usuario.nombre"></li>
 				<li class="header">NAVEGACIÓN</li>
 				<li ng-class="{activo: Activo('/perfil')}">
 					<a href="#/perfil"><i class="fa fa-user-circle padd-5"></i> <span>Perfil</span></a>
