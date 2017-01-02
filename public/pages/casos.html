@@ -25,6 +25,10 @@
       </div>
     </div>  
 
+    <div>
+      <a type="button" class="btn btn-link btnInfo mar-b-10" data-toggle="popover" data-content="Doble click en una fila de la tabla para ver más opciones."><i class="fa fa-info-circle"></i> info</a>
+    </div>
+
     <div class="table-responsive">
       <table id="casos" class="table table-bordered table-striped table-hover" ng-table="tableParams">
         <thead>
@@ -251,7 +255,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-labeled btn-warning" id="edit" ng-hide="editJoven" ng-click="editJoven = true"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Editar</button>   
         <button type="button" class="btn btn-labeled btn-success" id="editOk" ng-show="editJoven" ng-click="EditarJoven(joven)"><span class="btn-label" ><i class="fa fa-check"></i></span>Guardar</button>   
-        <button  data-title="¿Está seguro?" type="button" class="btn btn-labeled btn-danger" id="delete" ng-hide="editJoven" ng-model="jovenEliminar"><span class="btn-label" ><i class="fa fa-check"></i></span>Eliminar</button>   
+        <button  data-title="¿Está seguro?" type="button" class="btn btn-labeled btn-danger" id="delete" ng-hide="editJoven" ng-model="jovenEliminar"><span class="btn-label" ><i class="fa fa-times"></i></span>Eliminar</button>   
       </div>
     </div>
   </div>

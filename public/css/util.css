@@ -81,6 +81,25 @@
 .mar-b-20{
 	margin-bottom: 20px !important;
 }
+.mar-b-40{
+	margin-bottom: 40px !important;
+}
+
+.mar-t-0{
+	margin-top: 0px !important;
+}
+.mar-t-5{
+	margin-top: 5px !important;
+}
+.mar-t-10{
+	margin-top: 10px !important;
+}
+.mar-t-15{
+	margin-top: 15px !important;
+}
+.mar-t-20{
+	margin-top: 20px !important;
+}
 
 .mar-center{
 	margin: 0 auto !important;
@@ -101,6 +120,10 @@
 .pointer:hover{
 	cursor: pointer;
 }
+.capitalize{
+	text-transform: capitalize;
+}
+
 
 /*otro*/
 
@@ -296,17 +319,11 @@ section.main{
 	height: 50px;
 	transition: all .5s ease;
 }
-#contenedor #modalJoven.modal,
-#contenedor #addJoven.modal,
-#contenedor #addHorario.modal,
-#contenedor #editHorario.modal{
+#contenedor .modal{
 	left: 230px !important;
 	transition: all .5s ease;
 }
-#contenedor.canvas #modalJoven.modal,
-#contenedor.canvas #addJoven.modal,
-#contenedor.canvas #addHorario.modal,
-#contenedor.canvas #editHorario.modal{
+#contenedor.canvas .modal{
 	left: 60px !important;
 	transition: all .5s ease;
 }
@@ -345,7 +362,7 @@ section.main{
 	margin:12px 0    
 }
 #login-dp .social-buttons a{
-	width: 32%;
+	width: 49%;
 }
 #login-dp .form-group {
 	margin-bottom: 10px;
@@ -380,6 +397,11 @@ section.main{
 		color: #FFF;
 		font-weight: bolder;
 	}
+	.table-responsive > div.ng-scope.ng-isolate-scope{
+		position: absolute !important;
+		margin-top: 25px;
+		right: 15px;
+	}
 }
 
 /**/
@@ -388,7 +410,8 @@ section.main{
 }
 #menu-login-nav.navbar-default {
 	font-size: 18px;
-	background-color: rgba(248, 248, 248, 0);
+	background-color:rgba(0,0,0,.3);
+	/*background-color: rgba(248, 248, 248, 0);*/
 	border:none;
 	border-bottom: 1px solid rgba(255,255,255,0.5);
 }
@@ -415,9 +438,10 @@ section.main{
 	background-color: #ddd;
 }
 #menu-login-nav.navbar-default .navbar-toggle .icon-bar {
-	background-color: #888;
+	background-color: #FFF;
 }
 #menu-login-nav.navbar-default .navbar-toggle:hover .icon-bar,
 #menu-login-nav.navbar-default .navbar-toggle:focus .icon-bar {
 	background-color: #888;
 }
+

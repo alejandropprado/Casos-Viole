@@ -11,38 +11,71 @@ router.post('/login', (req,resp) => {
 		nombre : req.body.nombre,
 		email : req.body.email,
 		password : (req.body.idProveedor +'_'+req.body.nombre+'_'+req.body.proveedor),
+		RePassword : (req.body.idProveedor +'_'+req.body.nombre+'_'+req.body.proveedor),
 		imagen : req.body.imagen
 	}
 
-	console.log(req.body);
-
 	if(data.proveedor){
+
+
 		let opciones = { 
 			upsert: true, 
 			new: true, 
 			setDefaultsOnInsert: true 
 		};
 
-		console.log(data);
-
-		User.findOneAndUpdate({ idProveedor:data.idProveedor }, data, opciones, (err, usuario) => {
+		User.findOne({ email: data.email }, (err, user) => {
 			if (err) return resp.status(500).json({message : err });
-			if(!usuario) return resp.status(404).json({message : "Recurso no encontrado"});
+			if (!user) {
+				let nuevoUsuario = new User(data);
+				nuevoUsuario.save( (err, usuario, numrow) => {
+					if (err) return resp.status(500).json({message : err });
 
-			let token = jwt.sign(usuario, TokenKey);
+					let token = jwt.sign(usuario, TokenKey);
 
-			let token_user = {
-				token: token,				
-				usuario : {
-					nombre : usuario.nombre,
-					email : usuario.email,
-					proveedor: data.proveedor,
-					imagen: data.imagen
-				}
+					let token_user = {
+						token: token,				
+						usuario : {
+							nombre : usuario.nombre,
+							email : usuario.email,
+							proveedor: usuario.proveedor,
+							imagen: usuario.imagen
+						}
+					}
+
+					return resp.status(200).json( token_user );	
+				});
+			} else {
+
+				if(user.idProveedor.indexOf(data.idProveedor) === -1){
+					user.idProveedor.push(data.idProveedor);
+					user.proveedor.push(data.proveedor);
+				}			
+
+				User.findOneAndUpdate({ _id : user._id }, user, opciones, (err, usuario) => {
+					if (err) return resp.status(500).json({message : err });
+					if(!usuario) return resp.status(404).json({message : "Recurso no encontrado"});
+
+					let token = jwt.sign(usuario, TokenKey);
+
+					let token_user = {
+						token: token,				
+						usuario : {
+							nombre : usuario.nombre,
+							email : usuario.email,
+							proveedor: data.proveedor,
+							imagen: data.imagen
+						}
+					}
+
+					return resp.status(200).json( token_user );			
+				});
+				
 			}
 
-			return resp.status(200).json( token_user );			
 		});
+
+		
 	}else{
 		User.findOne({
 			email : req.body.email,

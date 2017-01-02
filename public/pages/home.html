@@ -8,19 +8,23 @@
 				</div>
 				<li class="header-name" ng-bind="Usuario.nombre"></li>
 				<li class="header">NAVEGACIÓN</li>
-				<li ng-class="{activo: Activo('/perfil')}">
-					<a href="#/perfil"><i class="fa fa-user-circle padd-5"></i> <span>Perfil</span></a>
+				
+				<li ng-class="{activo: Activo('/horarios')}"><a href="#/horarios"><i class="fa fa-clock-o padd-5"></i> <span>Horarios</span> </a>
 				</li>
-				<li ng-class="{activo: Activo('/horarios')}"><a href="#/horarios"><i class="fa fa-calendar padd-5"></i> <span>Calendario</span> </a>
+				<li ng-class="{activo: Activo('/todos-los-casos')}"><a ui-sref="home.casos"><i class="fa fa-group padd-5"></i> <span>Casos</span> </a>
 				</li>
-				<li data-toggle="collapse" data-target="#insertar" class="collapsed active li-submenu" >
-					<a href=""><i class="fa fa-edit"> </i> <span> Ingresar</span> <b><i class=" fa fa-angle-right arrow-menu"></i></b></a>						
+				<li ng-class="{activo: Activo('/hospitales-consultorios')}"><a ui-sref="home.consultorios"><i class="fa fa-hospital-o padd-5"></i> <span>Hospitales y Consultorios</span> </a>
+				</li>
+				<li ng-class="{activo: Activo('/cosam')}"><a ui-sref="home.cosam"><i class="fa fa-universal-access padd-5"></i> <span>COSAM</span> </a>
+				</li>
+				<!--<li data-toggle="collapse" data-target="#insertar" class="collapsed active li-submenu" >
+					<a href=""><i class="fa fa-edit"> </i> <span> dropdown</span> <b><i class=" fa fa-angle-right arrow-menu"></i></b></a>						
 				</li>
 				<ul class="sub-menu collapse" id="insertar">                    
 					<li><a href="#">opcion 1</a></li>
 					<li><a href="#">opcion 2</a></li>						
-				</ul>
-				<li><a href="" ng-click="logout()"><i class="fa fa-user-circle padd-5"></i> <span>Cerrar Sesión</span></a>
+				</ul>-->
+				<li><a href="" ng-click="logout()"><i class="fa fa-sign-out padd-5"></i> <span>Cerrar Sesión</span></a>
 				</li>
 			</ul>
 		</div>
@@ -39,8 +43,6 @@
 				<div class="collapse navbar-collapse navbar-menubuilder" >
 					<ul class="nav navbar-nav navbar-right" id="main-menu">
 						<li  ng-class="{active: Activo('/inicio')}"><a href="#/">Inicio</a>
-						</li>
-						<li ng-class="{active: Activo('/todos-los-casos')}"><a ui-sref="home.casos">Casos</a>
 						</li>
 					</ul>
 				</div>

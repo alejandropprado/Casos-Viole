@@ -18,14 +18,6 @@ var Cosam = (function(){
 	return Cosam;
 }());
 
-var DiasSemana = [
-{id:1,dia:"lunes"},
-{id:2,dia:"martes"},
-{id:3,dia:"miercoles"},
-{id:4,dia:"jueves"},
-{id:5,dia:"viernes"},	
-];
-
 var HorarioReal = (function(){
 	function HorarioReal(lu,ma,mi,ju,vi,terreno,joven){
 		this.lunes= lu || "";
@@ -41,7 +33,7 @@ var HorarioReal = (function(){
 }());
 
 var Joven = (function () {
-	function Joven(nombre, apellido, rut, fechaNacimiento, dire, adulto, contacto, ingreso, rit, tribunal, consultorio,cosam,horario) {
+	function Joven(nombre, apellido, rut, fechaNacimiento, dire, adulto, contacto, ingreso, rit, tribunal, consultorio,cosam) {
 		this.Nombre = nombre;
 		this.Apellido = apellido;
 		this.Rut = rut;

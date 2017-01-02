@@ -34,10 +34,12 @@ router.post('/jovenes', (req,resp) => {
 	Joven.findOneAndUpdate({rut:joven.rut}, joven, opciones, (err,_joven) => {
 		if (err) return resp.status(500).json({message : err });
 
-		allJovenes(req, resp, () => {
+		return resp.status(200).json({ joven: formatJoven(_joven) });
+
+		/*allJovenes(req, resp, () => {
 			let jovenes = resp.locals.allJovenes;
 			return resp.status(200).json({ jovenes });	
-		});
+		});*/
 	});
 });
 
@@ -62,13 +64,17 @@ router.route("/jovenes/:rut")
 		tribunal:req.body.Tribunal
 	};
 	
-	Joven.findOneAndUpdate({ rut:resp.locals.joven.rut }, joven, (err,_joven) => {
+	Joven.findOneAndUpdate({ rut:resp.locals.joven.rut }, joven, { new : true } ,(err,_joven) => {
 		if (err) return resp.status(500).json({message : err });
 
-		allJovenes(req, resp, () => {
+		console.log(_joven);
+
+		return resp.status(200).json({ joven: formatJoven(_joven) });
+
+		/*allJovenes(req, resp, () => {
 			let jovenes = resp.locals.allJovenes;
 			return resp.status(200).json({ jovenes });	
-		});
+		});*/
 	});	
 })
 .delete( (req,resp) => {
@@ -78,10 +84,12 @@ router.route("/jovenes/:rut")
 
 		joven.remove();
 
-		allJovenes(req, resp, () => {
+		return resp.status(200).json({ joven: formatJoven(joven) });
+
+		/*allJovenes(req, resp, () => {
 			let jovenes = resp.locals.allJovenes;
 			return resp.status(200).json({ jovenes });	
-		});
+		});*/
 	});
 });
 

@@ -10,7 +10,8 @@ let schema_horario = new Schema({
 	jueves:String,
 	viernes:String,
 	terreno:{type:Boolean,default:false},
-	joven:{type:Schema.Types.ObjectId,ref:'Joven'}
+	joven:{type:Schema.Types.ObjectId,ref:'Joven'},
+	usuario:{type:Schema.Types.ObjectId,ref:'User'}
 });
 
 let Horario =  mongoose.model("Horario",schema_horario);

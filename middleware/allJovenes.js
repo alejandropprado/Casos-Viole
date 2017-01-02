@@ -4,9 +4,13 @@ const TokenValido = require('./token');
 
 module.exports = (req, resp, next) => {
 	TokenValido(req,resp, () => {
-		Joven.find((err, jovenes) => {
+		Joven.find()
+		.populate('consultorio cosam')
+		.exec( (err, jovenes) => {
 			if (err) return resp.status(500).json({message : "Internal Server Error"});
 			if (!jovenes) return resp.status(404).json({message : "Recurso no encontrado"});
+
+			console.log(jovenes);
 
 			let todos = [];
 			for (var i = jovenes.length - 1; i >= 0; i--) {

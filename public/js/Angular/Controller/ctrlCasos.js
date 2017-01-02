@@ -4,6 +4,7 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 	$sp.mensaje ={mostrar:false,tipo:"",descripcion:""};
 	$sp.nuevoJoven = new Joven();
 	$sp.jovenEliminar = {};
+	$sp.jovenes = [];
 	//limpiarFechas($sp.nuevoJoven);
 
 	$sp.navpills = {
@@ -47,13 +48,11 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 
 	$sp.FiltrarGlobal = function(){
 		var opcion;
-		console.log(typeof $sp.tipoFiltro);
 		if($sp.tipoFiltro !== undefined && $sp.tipoFiltro !== null){
 			opcion = $sp.tipoFiltro.id;
 		}
 
 		var term = $sp.busqueda;
-		console.log(term);
 
 		switch(opcion){
 			case 1:
@@ -73,7 +72,7 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 	//Recuperando los datos 
 	ActionAPI('GET','/api/jovenes',{},function(jovenes){
 		$sp.jovenes = jovenes;
-		initTablaJovenes($sp.jovenes);
+		initTablaJovenes($sp.jovenes);		
 	},function(err){
 		console.log('ERROR');
 	});
@@ -97,13 +96,23 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 
 	$sp.addJovenOk = function(){
 
-		console.log($sp.nuevoJoven);
-
 		$sp.nuevoJoven.FechaNacimiento = $('#dateAddNacimiento > input').val();
 		$sp.nuevoJoven.FechaIngreso =$('#dateAddIngreso > input').val();
 
-		ActionAPI('POST','/api/jovenes', $sp.nuevoJoven, function (jovenes) {
-			$sp.jovenes = jovenes;
+		ActionAPI('POST','/api/jovenes', $sp.nuevoJoven, function (joven) {
+
+			var repetido = false;
+			
+			for (var i = $sp.jovenes.length - 1; i >= 0; i--) {
+				if($sp.jovenes[i].Rut == joven.Rut){
+					$sp.jovenes[i] = joven;
+					repetido = true;
+					break;
+				} 				
+			}
+
+			if(!repetido) $sp.jovenes.push(joven);
+
 			$sp.nuevoJoven = new Joven();
 			//limpiarFechas($sp.nuevoJoven);
 			$('#addJoven').modal('hide');
@@ -123,8 +132,19 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 		obj.FechaNacimiento = $('#dateEditNacimiento > input').val();
 		obj.FechaIngreso = $('#dateEditIngreso > input').val();
 
-		ActionAPI('PUT','/api/jovenes/'+obj.Rut, obj, function (jovenes) {
-			$sp.jovenes = jovenes;
+		ActionAPI('PUT','/api/jovenes/'+obj.Rut, obj, function (joven) {
+			var repetido = false;
+			
+			for (var i = $sp.jovenes.length - 1; i >= 0; i--) {
+				if($sp.jovenes[i].Rut == joven.Rut){
+					$sp.jovenes[i] = joven;
+					repetido = true;
+					break;
+				} 				
+			}
+
+			if(!repetido) $sp.jovenes.push(joven);
+
 			$sp.nuevoJoven = new Joven();
 			//limpiarFechas($sp.nuevoJoven);
 			$('#addJoven').modal('hide');
@@ -146,8 +166,14 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 	*/
 	$('#delete').confirmation({
 		onConfirm: function() {
-			ActionAPI('DELETE','/api/jovenes/'+$sp.joven.Rut,{}, function (jovenes) {
-				$sp.jovenes = jovenes;
+			ActionAPI('DELETE','/api/jovenes/'+$sp.joven.Rut,{}, function (joven) {
+
+				for (var i = $sp.jovenes.length - 1; i >= 0; i--) {
+					if($sp.jovenes[i].Rut == joven.Rut){
+						$sp.jovenes.splice(i, 1);
+					}
+				}
+
 				$sp.nuevoJoven = new Joven();
 				initTablaJovenes($sp.jovenes);
 				$('#modalJoven').modal('hide');
@@ -176,29 +202,73 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 	function ActionAPI(method,url,data,success,error){
 		ApiJovenes.Api(method,url, data).then(
 			function (data){
-				var arrayJovenes = data.jovenes;
-				console.log(arrayJovenes);
-				var jovenes = [] ;
-				for (var i = arrayJovenes.length - 1; i >= 0; i--) {          
-					var joven = new Joven(
-						arrayJovenes[i].nombre, 
-						arrayJovenes[i].apellido, 
-						arrayJovenes[i].rut, 
-						moment(arrayJovenes[i].fecha_nacimiento).format('DD/MM/YYYY'), 
-						arrayJovenes[i].direccion, 
-						arrayJovenes[i].adulto_responsable, 
-						arrayJovenes[i].numero_contacto, 
-						moment(arrayJovenes[i].fecha_ingreso).format('DD/MM/YYYY'), 
-						arrayJovenes[i].rit, 
-						arrayJovenes[i].tribunal
-						);
-					jovenes.push(joven);
-				}
+				switch (method.toUpperCase()) {
+					case 'GET':
+					var arrayJovenes = data.jovenes;
+					var jovenes = [];
+					for (var i = arrayJovenes.length - 1; i >= 0; i--) {          
+						var joven = new Joven(
+							arrayJovenes[i].nombre, 
+							arrayJovenes[i].apellido, 
+							arrayJovenes[i].rut, 
+							moment(arrayJovenes[i].fecha_nacimiento).format('DD/MM/YYYY'), 
+							arrayJovenes[i].direccion, 
+							arrayJovenes[i].adulto_responsable, 
+							arrayJovenes[i].numero_contacto, 
+							moment(arrayJovenes[i].fecha_ingreso).format('DD/MM/YYYY'), 
+							arrayJovenes[i].rit, 
+							arrayJovenes[i].tribunal
+							);
 
-				try {
-					success(jovenes);
+						if(arrayJovenes[i].consultorio){
+							var c = arrayJovenes[i].consultorio;
+							joven.Consultorio = new Consultorio(c.id, c.nombre, c.direccion, c.telefono);
+						}
+						if(arrayJovenes[i].cosam){
+							var c = arrayJovenes[i].cosam;
+							joven.Cosam = new Cosam(c.id, c.nombre, c.direccion, c.telefono);
+						}
+
+						jovenes.push(joven);
+					}
+
+					try {
+						success(jovenes);
+					}
+					catch(err) {}
+					break;
+					case 'POST':
+					case 'PUT':	
+					case 'DELETE':				
+					var jovenData = data.joven;
+					var joven = new Joven(
+						jovenData.nombre, 
+						jovenData.apellido, 
+						jovenData.rut, 
+						moment(jovenData.fecha_nacimiento).format('DD/MM/YYYY'), 
+						jovenData.direccion, 
+						jovenData.adulto_responsable, 
+						jovenData.numero_contacto, 
+						moment(jovenData.fecha_ingreso).format('DD/MM/YYYY'), 
+						jovenData.rit, 
+						jovenData.tribunal
+						);
+
+					if(jovenData.consultorio){
+						var c = jovenData.consultorio;
+						joven.Consultorio = new Consultorio(c.id, c.nombre, c.direccion, c.telefono);
+					}
+					if(jovenData.cosam){
+						var c = jovenData.cosam;
+						joven.Cosam = new Cosam(c.id, c.nombre, c.direccion, c.telefono);
+					}				
+
+					try {
+						success(joven);
+					}
+					catch(err) {}
+					break;
 				}
-				catch(err) {}
 			},function (err){
 				try {
 					error(err);
@@ -257,6 +327,6 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 		}
 	};
 
-	$('.modal-backdrop.fade.in').hide();
+	$('.btnInfo').popover();
 
 }]);

@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const bodyParser =  require('body-parser');
 const rutaJovenes = require('./router/jovenes');
 const rutaHorarios = require('./router/horarios');
+const rutaConsultorios = require('./router/consultorios');
+const rutaCosam = require('./router/cosam');
 const rutaUsers = require('./router/users');
 
 /*Instancias*/
@@ -18,6 +20,8 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 app.use('/api',rutaJovenes);
 app.use('/api',rutaHorarios);
+app.use('/api',rutaConsultorios);
+app.use('/api',rutaCosam);
 app.use('/auth',rutaUsers);
 
 //Conexion MONGODB

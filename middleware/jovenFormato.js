@@ -1,3 +1,4 @@
+const formatoConsultorioCosam = require('./formatoConsultorioCosam');
 module.exports = (joven) => {
 	let jovenFormat = {
 		nombre : joven.nombre,
@@ -9,7 +10,9 @@ module.exports = (joven) => {
 		numero_contacto: joven.numero_contacto ,
 		fecha_ingreso: joven.fecha_ingreso,
 		rit: joven.rit,
-		tribunal: joven.tribunal
+		tribunal: joven.tribunal,
+		consultorio : formatoConsultorioCosam(joven.consultorio), 
+		cosam : formatoConsultorioCosam(joven.cosam)
 	};
 
 	return jovenFormat ;

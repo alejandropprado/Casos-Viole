@@ -12,14 +12,21 @@ app.controller('ctrlRuta',
 		};
 
 		$sp.logout = function(){	
+			console.log('logout');
 			
 			if($sp.Usuario.proveedor){
-				FbAuth.Logout( function () {
-					console.log('cerrando sesion de fb');
+				if ($sp.Usuario.proveedor == 'FB') {
+					FbAuth.Logout( function () {
+						console.log('cerrando sesion de fb');
+						window.localStorage.removeItem('token');
+						window.localStorage.removeItem('usuario');
+						$state.go('login');
+					});
+				}else {
 					window.localStorage.removeItem('token');
 					window.localStorage.removeItem('usuario');
 					$state.go('login');
-				});
+				}
 			} else {
 				window.localStorage.removeItem('token');
 				window.localStorage.removeItem('usuario');

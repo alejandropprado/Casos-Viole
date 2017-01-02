@@ -13,8 +13,8 @@ module.exports = (req, resp, next) => {
 				token = val.replace(/"/g,'');
 				jwt.verify(token, TokenKey, (err,decode) => {
 					if (err) return resp.status(401).json({message : "No esta autorizado para realizar esta acción"});
-
-					next();
+					console.log(decode);
+					next(decode._doc._id);
 				});
 			}
 		}else {

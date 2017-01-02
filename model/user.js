@@ -27,8 +27,8 @@ const schemaUser = new Schema({
 		type: String, 
 		minLenght: [8,"Contraseña muy corta"]
 	},
-	proveedor: String,
-	idProveedor: String,
+	proveedor: { type: Array, default: [] },
+	idProveedor: { type: Array, default: [] },
 	imagen : { type:String, default: '/img/default.png'}
 }, propiedadesSchema);
 

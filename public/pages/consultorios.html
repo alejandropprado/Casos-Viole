@@ -1,1 +1,102 @@
-consultorios.html
+<div class="main" ng-controller="consultorioCtrl">
+	<ol class="breadcrumb">
+		<li><a href="#/">Inicio</a></li>
+		<li class="active">Consultorios</li>
+	</ol>
+	<h1 class="center"> Hospitales - Consultorios</h1>
+	<section class="container-fluid ">  
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+				<div class="alert alert-danger center" ng-show="mensaje.mostrar">
+					<strong ng-bind="mensaje.descripcion"></strong>
+				</div>
+			</div>
+		</div>
+		<div class="row mar-b-10">      
+			<div class="col-sm-3">
+				<label for="busqueda">Filtro</label>
+				<div class="input-group">          
+					<input id="busqueda" type="text" class="form-control" placeholder="Busqueda..." ng-model="busquedaConsultorio" ng-keyup="FiltroConsultorio()">
+					<span class="input-group-addon">
+						<i class="fa fa-search"></i>
+					</span>
+				</div><!-- /input-group -->
+			</div>
+			<div class="col-sm-3 pull-right">  <br>
+				<button type="button" class="btn btn-labeled btn-success pull-right" ng-click="addConsultorio()"><span class="btn-label" ><i class="fa fa-plus"></i></span>Agregar</button>        
+			</div>
+		</div> 
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-hover" ng-table="tablaConsultorio">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Direccion</th>
+						<th>Teléfono</th>
+						<th>Opciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="c in $data">
+						<td ng-bind="c.Nombre"></td>
+						<td ng-bind="c.Direccion"></td>
+						<td ng-bind="c.Telefono"></td>
+						<td class="center">
+							<button class="btn btn-xs btn-warning" ng-click="EditarConsultorio(c)"><i class="fa fa-pencil"></i></button>
+							<button  data-title="¿Está seguro?" type="button" class="btn btn-xs btn-danger deleteConsultorio" ng-click="EliminarConsultorio(c)"><i class="fa fa-times"></i></button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th>Nombre</th>
+						<th>Direccion</th>
+						<th>Teléfono</th>
+						<th>Opciones</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+	</section>
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="EditConsultorio">
+		<div class="modal-dialog" role="document">
+			<form name="formAddConsultorio" ng-submit="EditarConsultorioOK()">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Agregar Hopital - Consultorio</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="nombre">Nombre</label>
+									<input type="text" id="nombre" class="form-control" ng-model="Consultorio.Nombre" ng-focus="true">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="direccion">Dirección</label>
+									<input type="text" id="direccion" class="form-control" ng-model="Consultorio.Direccion">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="telefono">Teléfono</label>
+									<input type="text" id="telefono" class="form-control" ng-model="Consultorio.Telefono">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">						
+						<button type="submit" class="btn btn-success" >Guardar</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</form>
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+</div>

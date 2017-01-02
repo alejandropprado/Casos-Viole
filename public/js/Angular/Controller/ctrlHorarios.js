@@ -233,4 +233,6 @@ app.controller('ctrlHorarios', ['$scope','$controller','NgTableParams','$http','
 		format: 'LT'
 	});
 
+	$('.btnInfo').popover();
+
 }]);

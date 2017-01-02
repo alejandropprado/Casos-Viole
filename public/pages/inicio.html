@@ -1,23 +1,77 @@
-<div class="main">
-	<ol class="breadcrumb">
-		<li><a href="#/">Inicio</a></li>
-	</ol>
+<div class="main" ng-controller="calendarCtrl">
 	<section class="container-fluid">
-		<div class="row">
-			<div class="col-md-3">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus eligendi sequi mollitia perspiciatis, maiores, esse adipisci quasi et ea natus suscipit ducimus, tempore id quibusdam fugiat, officiis vel fuga harum.
-			</div>
-			<div class="col-md-3">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum error voluptates, deleniti quasi recusandae ullam blanditiis reprehenderit ut, velit laborum odit mollitia optio suscipit vitae ex sunt architecto natus assumenda.
-			</div>
-			<div class="col-md-3">
-				<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit voluptate quasi corrupti provident a quam aut cumque perferendis dolorum. Unde est dolor voluptas praesentium quaerat quibusdam veritatis laboriosam eaque cumque!</div>
-				<div>Blanditiis doloribus necessitatibus odit iste beatae officiis eaque ad incidunt porro est eius, vel debitis nesciunt tenetur explicabo, asperiores deserunt atque inventore sequi totam tempore alias, aliquam corrupti. Quaerat, est!</div>
-			</div>
-			<div class="col-md-3">
-				<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit voluptate quasi corrupti provident a quam aut cumque perferendis dolorum. Unde est dolor voluptas praesentium quaerat quibusdam veritatis laboriosam eaque cumque!</div>
-				<div>Blanditiis doloribus necessitatibus odit iste beatae officiis eaque ad incidunt porro est eius, vel debitis nesciunt tenetur explicabo, asperiores deserunt atque inventore sequi totam tempore alias, aliquam corrupti. Quaerat, est!</div>
+		<div class="row"> 
+			<div class="col-md-10 col-md-offset-1 mar-b-40">
+				<h1 class="center mar-t-10 capitalize" ng-bind="calendarTitle" ></h1>
+				<hr>
+				
+				<div class="mar-b-20">
+					<button class="btn btn-primary" mwl-date-modifier date="viewDate" decrement="calendarView">
+						Anterior 
+					</button>
+
+					<button class="btn btn-default" mwl-date-modifier date="viewDate" set-to-today> 
+						Hoy 
+					</button>
+
+					<button class="btn btn-primary" mwl-date-modifier date="viewDate" increment="calendarView"> 
+						Siguiente
+					</button> 
+
+					<button class="btn btn-success pull-right"><i class="fa fa-plus"></i> Nuevo Evento</button>
+				</div>
+				<mwl-calendar view="calendarView" view-date="viewDate" events="events" view-title="calendarTitle" on-event-click="eventClicked(calendarEvent)" on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd" cell-is-open="false" class="">
+				</mwl-calendar>
 			</div>
 		</div>
 	</section>
+
+	<!--Modal-->
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="addEvento">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Agregar Evento</h4>
+				</div>
+				<div class="modal-body">		
+					<div class="form-group">
+						<label for="titulo">Nuevo Evento</label>
+					</div>		       
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="evIni"></label>
+								<div id="evIni" class="input-group">
+									<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="eventoInicio" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="evFin"></label>
+								<div id="evFin" class="input-group">
+									<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="eventoFin" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-labeled btn-success pull-right"><span class="btn-label" ><i class="fa fa-plus"></i></span>Guardar</button>
+			</div>
+		</div>
+	</div>
+</div> 
+<!--FinModal-->
+
 </div>
+
