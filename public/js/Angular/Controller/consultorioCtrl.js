@@ -2,6 +2,7 @@ app.controller('consultorioCtrl', ['$scope', 'ApiJovenes', 'NgTableParams', func
 	$sp.Consultorios = [];
 	$sp.mensaje ={mostrar:false,tipo:"",descripcion:""};
 	$sp.Consultorio = {};
+	$sp.NuevoConsultorio = {};
 
 	function initTablaConsultorios(array) {
 		var param = {
@@ -25,22 +26,12 @@ app.controller('consultorioCtrl', ['$scope', 'ApiJovenes', 'NgTableParams', func
 
 	$sp.EditarConsultorio = function(obj){
 
-		$sp.Consultorio = new Consultorio(obj.Id, obj.Nombre, obj.Direccion, obj.Telefono);;
+		$sp.Consultorio = new Consultorio(obj.Id, obj.Nombre, obj.Direccion, obj.Telefono);
 		$('#EditConsultorio').modal();
 	};
-	$sp.EditarConsultorioOK = function(){
+	$sp.EditarConsultorioOK = function(){		
 
-		var valido = true;
-
-		if( /^\s*$/.test($sp.Consultorio.Nombre) ){
-			valido = false;
-		} else if( /^\s*$/.test($sp.Consultorio.Direccion) ){
-			valido = false;
-		} else if( /^\s*$/.test($sp.Consultorio.Telefono) ){
-			valido = false;
-		}
-
-		if(valido){
+		if(validarConsultorio($sp.Consultorio)){
 			ApiConsultorios('PUT','/api/consultorios/'+$sp.Consultorio.Id, $sp.Consultorio, function(datos){
 
 				for (var i = $sp.Consultorios.length - 1; i >= 0; i--) {
@@ -50,51 +41,78 @@ app.controller('consultorioCtrl', ['$scope', 'ApiJovenes', 'NgTableParams', func
 					}
 				}
 
+				$('#EditConsultorio').modal('hide');
+				$sp.mensaje.mostrar = false;
 				$sp.Consultorio = {};
-				initTablaConsultorios($sp.Consultorios);
-				$('#addConsultorio').modal('hide');
+				initTablaConsultorios($sp.Consultorios);			
 
 			}, function(err){
+				$sp.mensaje ={mostrar:true,tipo:"edit",descripcion:"¡ERROR!, Ha ocurrido un erro al actualizar los datos"};		
 			});
 		} else {
 			$sp.mensaje ={mostrar:true,tipo:"edit",descripcion:"¡ERROR!, Debe Completar todos los campos"};			
 		}	
 	};
 
-	/*Falta agregar y completar el eliminar*/
-
 	$sp.EliminarConsultorio = function(obj){
-		$('.deleteConsultorio').confirmation({
-			onConfirm: function() {
-				ApiConsultorios('DELETE','/api/consultorios/'+obj.Id, {}, function (data) {
-
-					for (var i = $sp.Consultorios.length - 1; i >= 0; i--) {
-						if($sp.Consultorios[i].Id === data.Id){
-							$sp.Consultorios.splice(i, 1);
-						}
-					}
-
-					initTablaConsultorios($sp.Consultorios);
-				}, function (err) {
-					$sp.mensaje.mostrar = true;
-					$sp.mensaje.descripcion = "¡ERROR!, Al eliminar";
-					$sp.mensaje.tipo = "add";
-				});		
-			},
-			buttons: [
-			{
-				label: 'SI',
-				class: 'btn btn-xs btn-primary',
-				icon: 'fa fa-check'
-			},
-			{
-				label: 'NO',
-				class: 'btn btn-xs btn-default',
-				icon: 'fa fa-close'
-			}],
-
-		});
+		$('#confirm').modal();
+		$sp.Consultorio = new Consultorio(obj.Id, obj.Nombre, obj.Direccion, obj.Telefono);
 	};
+
+	$sp.EliminarConsultorioOK = function(){
+		ApiConsultorios('DELETE','/api/consultorios/'+$sp.Consultorio.Id, {}, function (data) {
+
+			for (var i = $sp.Consultorios.length - 1; i >= 0; i--) {
+				if($sp.Consultorios[i].Id === data.Id){
+					$sp.Consultorios.splice(i, 1);
+				}
+			}
+
+			initTablaConsultorios($sp.Consultorios);
+			$sp.Consultorio = {};
+			$sp.mensaje.mostrar = false;
+			$('#confirm').modal('hide');
+		}, function (err) {
+			$sp.mensaje.mostrar = true;
+			$sp.mensaje.descripcion = "¡ERROR!, Ha ocurrio un error al eliminar.";
+			$sp.mensaje.tipo = "delete";
+		});	
+	};
+
+	$sp.AgregarConsultorio = function(){
+		if(validarConsultorio($sp.NuevoConsultorio)){
+
+			ApiConsultorios('POST', '/api/consultorios', $sp.NuevoConsultorio , function(datos){
+				$sp.Consultorios.push(datos);
+				$('#addConsultorio').modal('hide');
+				initTablaConsultorios($sp.Consultorios);
+				$sp.NuevoConsultorio = {};
+				$sp.mensaje.mostrar = false;
+			}, function(err){
+				$sp.mensaje.mostrar = true;
+				$sp.mensaje.descripcion = "¡ERROR!, Ha ocurrio un error al agregar.";
+				$sp.mensaje.tipo = "add";
+			});
+		}else{
+			$sp.mensaje.mostrar = true;
+			$sp.mensaje.descripcion = "¡ERROR!, Debe completar todos los campos.";
+			$sp.mensaje.tipo = "add";
+		}
+	};
+
+	function validarConsultorio(consultorio) {
+		var valido = true;
+
+		if( /^\s*$/.test(consultorio.Nombre) ){
+			valido = false;
+		} else if( /^\s*$/.test(consultorio.Direccion) ){
+			valido = false;
+		} else if( /^\s*$/.test(consultorio.Telefono) ){
+			valido = false;
+		}
+
+		return valido;
+	}
 
 	function ApiConsultorios(method, url, data, success, error) {
 		ApiJovenes.Api(method, url, data)

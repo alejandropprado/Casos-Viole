@@ -16,9 +16,9 @@ router.get( '/consultorios', (req, resp) => {
 router.post( '/consultorios', (req, resp) => {
 
 	data = {
-		nombre: req.body.nombre,
-		direccion : req.body.direccion,
-		telefono : req.body.telefono
+		nombre: req.body.Nombre,
+		direccion : req.body.Direccion,
+		telefono : req.body.Telefono
 	};
 
 	let consultorio = new Consultorio(data);
@@ -26,7 +26,7 @@ router.post( '/consultorios', (req, resp) => {
 	consultorio.save( (err, nuevoHorario) => {
 		if (err) if (err) return resp.status(500).json( {message : err });
 
-		resp.status(200).json({nuevoHorario});
+		resp.status(200).json({ consultorio : formatoConsultorio(nuevoHorario) });
 
 	});
 });
@@ -52,7 +52,15 @@ router.route('/consultorios/:id')
 	});
 })
 .delete( (req, resp) => {
+	let consultorio = resp.locals.consultorio;
+	Consultorio.findOne({ _id : consultorio._id }, (err,_consultorio) => {
+		if(err) return resp.status(500).json({message : err });
+		if(!_consultorio) return resp.status(404).json({message : 'No se ha encontraado el Registro.' });
 
+		_consultorio.remove();
+
+		return resp.status(200).json({ consultorio: formatoConsultorio(_consultorio) });
+	});
 });
 
 
