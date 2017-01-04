@@ -1,4 +1,7 @@
-app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', function($sp,NgTableParams,$http,ApiJovenes){	
+app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes','$controller', function($sp,NgTableParams,$http,ApiJovenes,$controller){	
+	$controller('consultorioCtrl', {$scope : $sp });	
+	$controller('cosamCtrl', {$scope : $sp });	
+	$controller('programaSaludCtrl', {$scope : $sp });
 	/*inicialización*/
 
 	$sp.mensaje ={mostrar:false,tipo:"",descripcion:""};
@@ -10,10 +13,11 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 	$sp.navpills = {
 		datos : true,
 		consultorio : false,
-		cosam: false
+		cosam: false,
+		programaSalud: false
 	};
 
-	$sp.Consultorios = [
+	/*$sp.Consultorios = [
 	new Consultorio(1,'Centro de Salud Dra. Haydeé López Casoou','Lo Martínez Nº 862','02-5761451'),
 	new Consultorio(2,'Centro de Salud Familiar Orlando Letelier','Lo Moreno 890','800500454'),
 	new Consultorio(3,'CESFAM Carlos Lorca ','Claudina Parra #11.028','25470523'),
@@ -27,6 +31,10 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 	new Cosam(1,'Alter Joven','El Pajar #10675, El Bosque','5585997'),
 	new Cosam(2,'COSAM Pedro Aguirre Cerda','Avda. La Marina N° 2256','800500020'),
 	];
+
+	$sp.Consultorios = [];
+	$sp.Cosams = [];
+	$sp.ProgramasDeSalud = [];*/
 
 	$sp.Filtros = [
 	{id : 1, name: 'Nombre'},
@@ -79,9 +87,10 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 
 	//click para ver los datos del joven seleccionado
 	$sp.VerJoven = function(elm){
+		
 		$sp.mensaje ={mostrar:false,tipo:"",descripcion:""};
 		$sp.editJoven = false;
-		$sp.joven = new Joven(elm.Nombre,elm.Apellido,elm.Rut,elm.FechaNacimiento,elm.Direccion,elm.AdultoResponsable,elm.NumContacto,elm.FechaIngreso,elm.Rit,elm.Tribunal,elm.Consultorio,elm.Cosam);
+		$sp.joven = new Joven(elm.Nombre,elm.Apellido,elm.Rut,elm.FechaNacimiento,elm.Direccion,elm.AdultoResponsable,elm.NumContacto,elm.FechaIngreso,elm.Rit,elm.Tribunal,elm.Consultorio,elm.Cosam,elm.ProgramaSalud);
 
 		$('#delete').confirmation('hide');
 
@@ -207,6 +216,23 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 					var arrayJovenes = data.jovenes;
 					var jovenes = [];
 					for (var i = arrayJovenes.length - 1; i >= 0; i--) {          
+						var consultorio = null;
+						var cosam = null;
+						var programaSalud = null;
+
+						if(arrayJovenes[i].consultorio){
+							var c = arrayJovenes[i].consultorio;
+							consultorio = new Consultorio(c.id, c.nombre, c.direccion, c.telefono);
+						}
+						if(arrayJovenes[i].cosam){
+							var c = arrayJovenes[i].cosam;
+							cosam = new Cosam(c.id, c.nombre, c.direccion, c.telefono);
+						}
+						if(arrayJovenes[i].programaSalud){
+							var p = arrayJovenes[i].programaSalud;
+							programaSalud = new ProgramaSalud(p.id, p.nombre, p.direccion, p.telefono);
+						}
+
 						var joven = new Joven(
 							arrayJovenes[i].nombre, 
 							arrayJovenes[i].apellido, 
@@ -217,17 +243,11 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 							arrayJovenes[i].numero_contacto, 
 							moment(arrayJovenes[i].fecha_ingreso).format('DD/MM/YYYY'), 
 							arrayJovenes[i].rit, 
-							arrayJovenes[i].tribunal
+							arrayJovenes[i].tribunal,
+							consultorio,
+							cosam,
+							programaSalud
 							);
-
-						if(arrayJovenes[i].consultorio){
-							var c = arrayJovenes[i].consultorio;
-							joven.Consultorio = new Consultorio(c.id, c.nombre, c.direccion, c.telefono);
-						}
-						if(arrayJovenes[i].cosam){
-							var c = arrayJovenes[i].cosam;
-							joven.Cosam = new Cosam(c.id, c.nombre, c.direccion, c.telefono);
-						}
 
 						jovenes.push(joven);
 					}
@@ -241,6 +261,24 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 					case 'PUT':	
 					case 'DELETE':				
 					var jovenData = data.joven;
+
+					var consultorio = null;
+					var cosam = null;
+					var programaSalud = null;
+					
+					if(jovenData.consultorio){
+						var c = jovenData.consultorio;
+						consultorio = new Consultorio(c.id, c.nombre, c.direccion, c.telefono);
+					}
+					if(jovenData.cosam){
+						var c = jovenData.cosam;
+						cosam = new Cosam(c.id, c.nombre, c.direccion, c.telefono);
+					}	
+					if(jovenData.programaSalud){
+						var p = jovenData.programaSalud;
+						programaSalud = new ProgramaSalud(p.id, p.nombre, p.direccion, p.telefono);
+					}	
+
 					var joven = new Joven(
 						jovenData.nombre, 
 						jovenData.apellido, 
@@ -251,17 +289,11 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 						jovenData.numero_contacto, 
 						moment(jovenData.fecha_ingreso).format('DD/MM/YYYY'), 
 						jovenData.rit, 
-						jovenData.tribunal
-						);
-
-					if(jovenData.consultorio){
-						var c = jovenData.consultorio;
-						joven.Consultorio = new Consultorio(c.id, c.nombre, c.direccion, c.telefono);
-					}
-					if(jovenData.cosam){
-						var c = jovenData.cosam;
-						joven.Cosam = new Cosam(c.id, c.nombre, c.direccion, c.telefono);
-					}				
+						jovenData.tribunal,
+						consultorio,
+						cosam,
+						programaSalud
+						);		
 
 					try {
 						success(joven);
@@ -310,20 +342,31 @@ app.controller('ctrlCasos', ['$scope','NgTableParams','$http','ApiJovenes', func
 			$sp.navpills = {
 				datos : true,
 				consultorio : false,
-				cosam: false
+				cosam: false,
+				programaSalud : false
 			};break;
 			case 'consultorio':
 			$sp.navpills = {
 				datos : false,
 				consultorio : true,
-				cosam: false
+				cosam: false,
+				programaSalud : false
 			};break;
 			case 'cosam':
 			$sp.navpills = {
 				datos : false,
 				consultorio : false,
-				cosam: true
+				cosam: true,
+				programaSalud : false
 			};break;
+			case 'programaSalud':
+			$sp.navpills = {
+				datos : false,
+				consultorio : false,
+				cosam: false,
+				programaSalud : true
+			};break;
+
 		}
 	};
 

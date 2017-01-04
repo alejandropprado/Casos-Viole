@@ -23,10 +23,10 @@ router.post( '/consultorios', (req, resp) => {
 
 	let consultorio = new Consultorio(data);
 
-	consultorio.save( (err, nuevoHorario) => {
+	consultorio.save( (err, nuevoCosnultorio) => {
 		if (err) if (err) return resp.status(500).json( {message : err });
 
-		resp.status(200).json({ consultorio : formatoConsultorio(nuevoHorario) });
+		resp.status(200).json({ consultorio : formatoConsultorio(nuevoCosnultorio) });
 
 	});
 });

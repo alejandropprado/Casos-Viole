@@ -12,7 +12,8 @@ module.exports = (joven) => {
 		rit: joven.rit,
 		tribunal: joven.tribunal,
 		consultorio : formatoConsultorioCosam(joven.consultorio), 
-		cosam : formatoConsultorioCosam(joven.cosam)
+		cosam : formatoConsultorioCosam(joven.cosam),
+		programaSalud : formatoConsultorioCosam(joven.programaSalud)
 	};
 
 	return jovenFormat ;

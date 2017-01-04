@@ -7,6 +7,7 @@ const rutaJovenes = require('./router/jovenes');
 const rutaHorarios = require('./router/horarios');
 const rutaConsultorios = require('./router/consultorios');
 const rutaCosam = require('./router/cosam');
+const rutaProgramaSalud = require('./router/programasSalud');
 const rutaUsers = require('./router/users');
 
 /*Instancias*/
@@ -22,6 +23,7 @@ app.use('/api',rutaJovenes);
 app.use('/api',rutaHorarios);
 app.use('/api',rutaConsultorios);
 app.use('/api',rutaCosam);
+app.use('/api',rutaProgramaSalud);
 app.use('/auth',rutaUsers);
 
 //Conexion MONGODB

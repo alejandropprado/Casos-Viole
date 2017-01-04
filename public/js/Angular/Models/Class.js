@@ -18,6 +18,16 @@ var Cosam = (function(){
 	return Cosam;
 }());
 
+var ProgramaSalud = (function(){
+	function ProgramaSalud(id,nombre,dir,tel){
+		this.Id=id;
+		this.Nombre=nombre;
+		this.Direccion=dir;
+		this.Telefono=tel;
+	}
+	return ProgramaSalud;
+}());
+
 var HorarioReal = (function(){
 	function HorarioReal(lu,ma,mi,ju,vi,terreno,joven){
 		this.lunes= lu || "";
@@ -33,7 +43,7 @@ var HorarioReal = (function(){
 }());
 
 var Joven = (function () {
-	function Joven(nombre, apellido, rut, fechaNacimiento, dire, adulto, contacto, ingreso, rit, tribunal, consultorio,cosam) {
+	function Joven(nombre, apellido, rut, fechaNacimiento, dire, adulto, contacto, ingreso, rit, tribunal, consultorio, cosam, programa) {
 		this.Nombre = nombre;
 		this.Apellido = apellido;
 		this.Rut = rut;
@@ -46,6 +56,7 @@ var Joven = (function () {
 		this.Tribunal = tribunal;
 		this.Consultorio = consultorio || null;
 		this.Cosam = cosam || null;
+		this.ProgramaSalud = programa || null;
 	}
 	Joven.prototype.getTiempo = function () {
 		var ingresoAnio = (new Date(moment(this.FechaIngreso, "DD/MM/YYYY"))).getFullYear();

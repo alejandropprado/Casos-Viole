@@ -21,7 +21,7 @@
 		</div>	
 
 		<div>
-			<a type="button" class="btn btn-link btnInfo mar-b-10" data-toggle="popover" data-content="Doble click en una fila de la tabla para ver más opciones."><i class="fa fa-info-circle"></i> info</a>
+			<a type="button" class="btn btn-link btnInfo mar-b-10" data-toggle="popover" data-content="Click en una fila de la tabla para ver más opciones."><i class="fa fa-info-circle"></i> info</a>
 		</div>
 
 		<table class="table table-bordered table-striped table-hover" ng-table="tableHorarios">
@@ -37,7 +37,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="h in $data" class="pointer" ng-dblclick="EditHorarioFn(h)">
+				<tr ng-repeat="h in $data" class="pointer" ng-click="EditHorarioFn(h)">
 					<td ng-bind="h.Joven.Nombre+' '+h.Joven.Apellido" ></td>
 					<td ng-bind="h.lunes" class="center-middle"></td>
 					<td ng-bind="h.martes" class="center-middle"></td>
@@ -226,7 +226,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				<button type="button" class="btn btn-labeled btn-warning pull-right" id="agregar" ng-click="EditHorarioOK()"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Guardar</button>
-				<button type="button" class="btn btn-labeled btn-danger pull-right" id="deleteH"><span class="btn-label" ><i class="fa fa-pencil"></i></span>Eliminar</button>
+				<button type="button" class="btn btn-labeled btn-danger pull-right" id="deleteH"><span class="btn-label" ><i class="fa fa-times"></i></span>Eliminar</button>
 			</div>
 		</div>
 	</div>

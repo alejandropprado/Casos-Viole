@@ -26,7 +26,7 @@
     </div>  
 
     <div>
-      <a type="button" class="btn btn-link btnInfo mar-b-10" data-toggle="popover" data-content="Doble click en una fila de la tabla para ver más opciones."><i class="fa fa-info-circle"></i> info</a>
+      <a type="button" class="btn btn-link btnInfo mar-b-10" data-toggle="popover" data-content="Click en una fila de la tabla para ver más opciones."><i class="fa fa-info-circle"></i> info</a>
     </div>
 
     <div class="table-responsive">
@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="j in $data" class="pointer" ng-dblclick="VerJoven(j)" alt="Doble Click Para Seleccionar">
+          <tr ng-repeat="j in $data" class="pointer" ng-click="VerJoven(j)">
             <td>{{j.Nombre+' '+j.Apellido}}</td>
             <td>{{j.Rut}}</td>
             <td>{{j.FechaNacimiento}}</td>
@@ -89,8 +89,9 @@
 
         <ul class="nav nav-pills nav-justified">
           <li role="presentation" class="{{navpills.datos ? 'active':''}}"><a href="" ng-click="verProp('datos')">Datos Personales</a></li>
-          <li role="presentation" class="{{navpills.consultorio ? 'active':''}}"><a href="" ng-click="verProp('consultorio')">Consultorio</a></li>
+          <li role="presentation" class="{{navpills.consultorio ? 'active':''}}"><a href="" ng-click="verProp('consultorio')">Hospital - Consultorio</a></li>
           <li role="presentation" class="{{navpills.cosam ? 'active':''}}"><a href="" ng-click="verProp('cosam')">COSAM</a></li>
+          <li role="presentation" class="{{navpills.programaSalud ? 'active':''}}"><a href="" ng-click="verProp('programaSalud')">Programas de Salud</a></li>
         </ul>
         <div class="alert alert-danger" ng-show="mensaje.mostrar && mensaje.tipo==='edit'">
           <b ng-bind="mensaje.descripcion"></b>          
@@ -245,6 +246,46 @@
           <div class="col-sm-8 col-sm-offset-2" ng-show="editJoven">              
             <div class="form-group">
               <select class="form-control" name="cosam" id="cosam" ng-model="joven.Cosam" ng-options="cosam as cosam.Nombre for cosam in Cosams track by cosam.Id">
+                <option value="">Seleccione</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row center" ng-show="navpills.programaSalud">
+          <h2 class="center">Programas de Salud</h2>
+          <hr>
+          <div ng-hide="editJoven">
+            <div ng-if="joven.ProgramaSalud !== null">
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Nombre</label><br>
+                  <span ng-bind="joven.ProgramaSalud.Nombre"></span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Dirección</label><br>
+                  <span ng-bind="joven.ProgramaSalud.Direccion"></span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">              
+                <div class="form-group">
+                  <label for="">Teléfono</label><br>
+                  <span ng-bind="joven.ProgramaSalud.Telefono"></span>
+                </div>
+              </div>
+            </div>
+            <div ng-if="joven.ProgramaSalud === null">
+              <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <div class="alert alert-danger center">
+                  <b>El o la Joven, No registra ningun Programa de Salud.</b>
+                </div>
+              </div>
+            </div>  
+          </div> 
+          <div class="col-sm-8 col-sm-offset-2" ng-show="editJoven">              
+            <div class="form-group">
+              <select class="form-control" name="cosam" id="cosam" ng-model="joven.ProgramaSalud" ng-options="programa as programa.Nombre for programa in ProgramasDeSalud track by programa.Id">
                 <option value="">Seleccione</option>
               </select>
             </div>

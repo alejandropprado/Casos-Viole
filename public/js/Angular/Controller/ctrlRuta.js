@@ -14,24 +14,9 @@ app.controller('ctrlRuta',
 		$sp.logout = function(){	
 			console.log('logout');
 			
-			if($sp.Usuario.proveedor){
-				if ($sp.Usuario.proveedor == 'FB') {
-					FbAuth.Logout( function () {
-						console.log('cerrando sesion de fb');
-						window.localStorage.removeItem('token');
-						window.localStorage.removeItem('usuario');
-						$state.go('login');
-					});
-				}else {
-					window.localStorage.removeItem('token');
-					window.localStorage.removeItem('usuario');
-					$state.go('login');
-				}
-			} else {
-				window.localStorage.removeItem('token');
-				window.localStorage.removeItem('usuario');
-				$state.go('login');
-			}
+			window.localStorage.removeItem('token');
+			window.localStorage.removeItem('usuario');
+			$state.go('login');
 
 		} 
 

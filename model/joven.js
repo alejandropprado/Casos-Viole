@@ -14,8 +14,9 @@ let schema_joven = new Schema({
 	fecha_ingreso:{type:Date,default: new Date()},
 	rit:{type:String,default: ''},
 	tribunal:String,
-	consultorio : { type : Schema.Types.ObjectId, ref : 'Consultorio'},
-	cosam : { type : Schema.Types.ObjectId, ref : 'Cosam'}
+	consultorio : { type : Schema.Types.ObjectId, ref : 'Consultorio' },
+	cosam : { type : Schema.Types.ObjectId, ref : 'Cosam' },
+	programaSalud : { type : Schema.Types.ObjectId, ref : 'ProgramaSalud' }
 });
 
 schema_joven.post('remove', (data) => {

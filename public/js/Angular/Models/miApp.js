@@ -49,6 +49,10 @@ app.config([
     .state('home.cosam', {
       templateUrl : '/pages/cosam.html',
       url:'cosam'
+    })
+    .state('home.progSalud', {
+      templateUrl : '/pages/programaSalud.html',
+      url:'programa-salud'
     });
 
   }]);

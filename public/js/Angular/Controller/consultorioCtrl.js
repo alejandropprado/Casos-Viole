@@ -170,6 +170,5 @@ app.controller('consultorioCtrl', ['$scope', 'ApiJovenes', 'NgTableParams', func
 	
 	//jquery
 	$('.btnInfo').popover();
-	$('.deleteConsultorio').confirmation('show');
 
 }]);

@@ -1,9 +1,9 @@
-<div class="main" ng-controller="cosamCtrl">
+<div class="main" ng-controller="programaSaludCtrl">
 	<ol class="breadcrumb">
 		<li><a href="#/">Inicio</a></li>
-		<li class="active">Cosam</li>
+		<li class="active">Programa de Salud</li>
 	</ol>
-	<h1 class="center"> Cosam </h1>
+	<h1 class="center"> Programas de Salud </h1>
 	<section class="container-fluid ">  
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
@@ -16,18 +16,18 @@
 			<div class="col-sm-3">
 				<label for="busqueda">Filtro</label>
 				<div class="input-group">          
-					<input id="busqueda" type="text" class="form-control" placeholder="Busqueda..." ng-model="busquedaCosam" ng-keyup="FiltroCosam()">
+					<input id="busqueda" type="text" class="form-control" placeholder="Busqueda..." ng-model="busquedaProgramasDeSalud" ng-keyup="FiltrotablaProgramasDeSalud()">
 					<span class="input-group-addon">
 						<i class="fa fa-search"></i>
 					</span>
 				</div><!-- /input-group -->
 			</div>
 			<div class="col-sm-3 pull-right">  <br>
-				<button type="button" class="btn btn-labeled btn-success pull-right" data-toggle="modal" data-target="#addCosam"><span class="btn-label" ><i class="fa fa-plus"></i></span>Agregar</button>        
+				<button type="button" class="btn btn-labeled btn-success pull-right" data-toggle="modal" data-target="#addProgramaSalud"><span class="btn-label" ><i class="fa fa-plus"></i></span>Agregar</button>        
 			</div>
 		</div> 
 		<div class="table-responsive">
-			<table class="table table-bordered table-striped table-hover" ng-table="tablaCosam">
+			<table class="table table-bordered table-striped table-hover" ng-table="tablaProgramasDeSalud">
 				<thead>
 					<tr>
 						<th>Nombre</th>
@@ -42,8 +42,8 @@
 						<td ng-bind="c.Direccion"></td>
 						<td ng-bind="c.Telefono"></td>
 						<td class="center">
-							<button class="btn btn-xs btn-warning" ng-click="EditarCosam(c)"><i class="fa fa-pencil"></i></button>
-							<button  data-title="¿Está seguro?" type="button" class="btn btn-xs btn-danger" ng-click="EliminarCosam(c)"><i class="fa fa-times"></i></button>
+							<button class="btn btn-xs btn-warning" ng-click="EditarProgramaSalud(c)"><i class="fa fa-pencil"></i></button>
+							<button  data-title="¿Está seguro?" type="button" class="btn btn-xs btn-danger" ng-click="EliminarProgramaSalud(c)"><i class="fa fa-times"></i></button>
 						</td>
 					</tr>
 				</tbody>
@@ -60,32 +60,32 @@
 
 	</section>
 
-	<div class="modal fade" tabindex="-1" role="dialog" id="EditCosam">
+	<div class="modal fade" tabindex="-1" role="dialog" id="EditProgramaSalud">
 		<div class="modal-dialog" role="document">
-			<form name="formAddCosam" ng-submit="EditarCosamOK()">
+			<form name="formAddProgramaSalud" ng-submit="EditarProgramaSaludOK()">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">Editar Cosam</h4>
+						<h4 class="modal-title">Editar Centro Medico</h4>
 					</div>
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="nombre">Nombre</label>
-									<input type="text" id="nombre" class="form-control" ng-model="Cosam.Nombre" ng-focus="true">
+									<input type="text" id="nombre" class="form-control" ng-model="Programa.Nombre" ng-focus="true">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="direccion">Dirección</label>
-									<input type="text" id="direccion" class="form-control" ng-model="Cosam.Direccion">
+									<input type="text" id="direccion" class="form-control" ng-model="Programa.Direccion">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="telefono">Teléfono</label>
-									<input type="text" id="telefono" class="form-control" ng-model="Cosam.Telefono">
+									<input type="text" id="telefono" class="form-control" ng-model="Programa.Telefono">
 								</div>
 							</div>
 						</div>
@@ -99,32 +99,32 @@
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
-	<div class="modal fade" tabindex="-1" role="dialog" id="addCosam">
+	<div class="modal fade" tabindex="-1" role="dialog" id="addProgramaSalud">
 		<div class="modal-dialog" role="document">
-			<form name="formAddCosam" ng-submit="AgregarCosam()">
+			<form name="formAddProgramaSalud" ng-submit="AgregarProgramaSalud()">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">Nuevo Cosam</h4>
+						<h4 class="modal-title">Nuevo Centro Medico</h4>
 					</div>
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="nombre">Nombre</label>
-									<input type="text" id="nombre" class="form-control" ng-model="NuevoCosam.Nombre">
+									<input type="text" id="nombre" class="form-control" ng-model="NuevoPrograma.Nombre">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="direccion">Dirección</label>
-									<input type="text" id="direccion" class="form-control" ng-model="NuevoCosam.Direccion">
+									<input type="text" id="direccion" class="form-control" ng-model="NuevoPrograma.Direccion">
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="telefono">Teléfono</label>
-									<input type="text" id="telefono" class="form-control" ng-model="NuevoCosam.Telefono">
+									<input type="text" id="telefono" class="form-control" ng-model="NuevoPrograma.Telefono">
 								</div>
 							</div>
 						</div>
@@ -144,13 +144,13 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Eliminar Cosam</h4>
+					<h4 class="modal-title">Eliminar Centro Medico</h4>
 				</div>
 				<div class="modal-body">
 					<strong>¿Esta seguro que desea eliminar este campo?</strong>
 				</div>
 				<div class="modal-footer">						
-					<button type="button" class="btn btn-warning" ng-click="EliminarCosamOK()" >Confirmar</button>
+					<button type="button" class="btn btn-warning" ng-click="EliminarProgramaSaludOK()" >Confirmar</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				</div>
 			</div><!-- /.modal-content -->
